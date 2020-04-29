@@ -1,0 +1,52 @@
+<div class="table-responsive col-md-6">
+    <table class="table table-hover header-fixed">
+        <caption style="text-align:center;font-size: x-large;color: blue">US Server Rankings</caption>
+        <thead>
+            <tr>
+                <th>ranking</th>
+                <th>username</th>
+                <th>rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ranking in us_rankings %}
+                <tr>
+                    <td class="username"> {{loop.index}} </td>
+                    <td class="ranking"> {{ ranking.username }} </td>
+                    <td class="rating"> {{ ranking.rating }} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>US Server Matches:</h3>
+    <ul>
+        <li>Thursdays 00 GMT (8pm EST)</li>
+        <li>Saturdays 21 GMT (5pm EST)</li>
+    </ul>
+</div>
+<div class="table-responsive col-md-6">
+    <table class="table table-hover header-fixed">
+        <caption style="text-align:center;font-size: x-large;color: crimson">EU Server Rankings</caption>
+        <thead>
+            <tr>
+                <th>ranking</th>
+                <th>username</th>
+                <th>rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ranking in eu_rankings %}
+                <tr>
+                    <td class="username"> {{loop.index}} </td>
+                    <td class="ranking"> {{ ranking.username }} </td>
+                    <td class="rating"> {{ ranking.rating }} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>EU Server Matches:</h3>
+    <ul>
+        <li>Tuesdays 19 GMT (9pm CEST)</li>
+        <li>Saturdays 15 GMT (5pm CEST)</li>
+    </ul>
+</div>

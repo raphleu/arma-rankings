@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 style="text-align: center">{{ title }}</h1>
+    <h4 style="text-align: center;margin-right: 100px;margin-left: 100px;margin-top: 50px;margin-bottom: 50px;">Public ranked tron matches! Signups start an hour before each match. Go to Armagetron Discord, competitions channel for more information and to play! See times below.</h4>
+    {% include 'rankings_list.html' %}
+{% endblock %}
