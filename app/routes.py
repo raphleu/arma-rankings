@@ -9,3 +9,7 @@ def index():
     us_rankings = Elorating.query.filter_by(matchtype='sbl_us_scorelog').order_by(Elorating.rating.desc()).all()
 
     return render_template('index.html', title = 'Sumobar League', us_rankings = us_rankings, eu_rankings = eu_rankings)
+
+@app.route('/league_info')
+def league_info():
+    return render_template('league_info.html')
