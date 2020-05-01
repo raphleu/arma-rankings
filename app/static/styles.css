@@ -1,3 +1,7 @@
+/*
+    Rating table
+ */
+
 .header-fixed {
     width: 100% 
 }
@@ -29,3 +33,26 @@
     width: 33%;
     float: left;
 }
+
+.label-day-game:first-child {
+    margin-right: .4em;
+    margin-bottom: .4em;
+}
+
+.column-day-game {
+    top: 1em;
+}
+
+/*
+=====================================
+    Nav Bar
+======================================
+*/
+#mainNav {
+    margin-bottom: 0;
+}
+
+#navbarResponsive {
+    padding-top: 1em;
+}
+
