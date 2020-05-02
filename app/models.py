@@ -24,6 +24,7 @@ class Elorating(db.Model):
     username = db.Column(db.String(64), db.ForeignKey('user.username'))
     matchtype = db.Column(db.String(64))
     rating = db.Column(db.Integer)
+    latest_delta = db.Column(db.Integer)
 
     def __repr__(self):
         return '<EloRating {}>'.format(self.user_id)

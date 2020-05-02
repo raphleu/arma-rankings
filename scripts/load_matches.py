@@ -35,26 +35,44 @@ for filename in listdir('../raw_data'):
                     username = player['username']
                     usernames.append(username)
                     if (username_to_rating.has_key(username)):
-                        rating = username_to_rating[username]
+                        rating = username_to_rating[username]['rating']
                         formatted_match.append(EloPlayer(place=place, elo=rating))
                     else:
                         formatted_match.append(EloPlayer(place=place, elo=starting_rating))
                     place += 1 
                 ratings = calc_elo(formatted_match, k_factor)
                 for i in range(len(ratings)):
-                    username_to_rating[usernames[i]] = ratings[i]
+                    username = usernames[i]
+                    old_rating = 1500
+                    if (username_to_rating.has_key(username)): 
+                        old_rating = username_to_rating[username]['rating']
+                    new_rating = ratings[i]
+                    rating_data = {}
+                    rating_data['rating'] = new_rating
+                    rating_data['latest_delta'] = new_rating - old_rating
+                    username_to_rating[username] = rating_data
+
 
         # print("Match count: " + str(match_count))
 
+        # The sorting below was for generating a nice printed list. Since everything is being stored to a db now, we don't need the sort (it will happen later)
+        # Still going to leave the code in just in case it comes in handy at some point. 
+        #  
         # print("Matchtype: " + match_type)
-        counter = 1
-        for key in sorted(username_to_rating, key = lambda username: username_to_rating[username], reverse = True):
+        # counter = 1
+        # for key in sorted(username_to_rating, key = lambda username: username_to_rating[username], reverse = True):
             # print(str(counter) + ". " + key + ": " + str(username_to_rating[key]))
+            # user = User(username=key)
+            # elorating = Elorating(username = key, matchtype = match_type, rating = username_to_rating[key]['rating'], latest_delta = username_to_rating[key]['latest_delta'])
+            # db.session.add(user)
+            # db.session.add(elorating)
+            # counter += 1
+
+        for key in username_to_rating:
             user = User(username=key)
-            elorating = Elorating(username = key, matchtype = match_type, rating = username_to_rating[key])
+            elorating = Elorating(username = key, matchtype = match_type, rating = username_to_rating[key]['rating'], latest_delta = username_to_rating[key]['latest_delta'])
             db.session.add(user)
             db.session.add(elorating)
-            counter += 1
 
 # commit all of our db changes
 db.session.commit()

@@ -18,6 +18,7 @@
           <th>ranking</th>
           <th>username</th>
           <th>rating</th>
+          <th>latest delta</th>
         </tr>
         </thead>
         <tbody>
@@ -26,6 +27,13 @@
             <td class="username"> {{ loop.index }} </td>
             <td class="ranking"> {{ ranking.username }} </td>
             <td class="rating"> {{ ranking.rating }} </td>
+            {% if ranking.latest_delta > 0 %}
+              <td class="latest-delta" style="color: green;"> +{{ ranking.latest_delta }} </td>
+            {% elif ranking.latest_delta == 0 %}
+            <td class="latest-delta"> {{ ranking.latest_delta }} </td>
+            {% else %}
+              <td class="latest-delta" style="color: red;"> {{ ranking.latest_delta }} </td>
+            {% endif %}
           </tr>
         {% endfor %}
         </tbody>

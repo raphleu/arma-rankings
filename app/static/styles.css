@@ -47,7 +47,7 @@ body {
 
 .header-fixed > tbody > tr > td,
 .header-fixed > thead > tr > th {
-    width: 33%;
+    width: 25%;
     float: left;
     border-top: 1px solid #3b4452;
 }

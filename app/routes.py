@@ -5,7 +5,7 @@ from app.models import Elorating
 
 schedule_for_us = [
     {
-        'day': 'Thursdays',
+        'day': 'Tuesdays',
         'time_gmt': '00 GMT',
         'time_est': '8pm EST',
     },
@@ -20,12 +20,12 @@ schedule_for_eu = [
     {
         'day': 'Tuesdays',
         'time_gmt': '19 GMT',
-        'time_est': '9pm EST',
+        'time_est': '1pm EST',
     },
     {
         'day': 'Saturdays',
         'time_gmt': '15 GMT',
-        'time_est': '5pm EST',
+        'time_est': '11am EST',
     },
 ]
 
