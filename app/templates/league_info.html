@@ -1,9 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="container">
-    <h1>How to join:</h1>
-    <h1>Schedule:</h1>
-    <h1>League rules:</h1>
+  <div class="container" style="margin-top: 100px;">
+    <h2><u>How to join</u></h2>
+    <p>
+      If you would like to play in rated matches and see your ranking here, please join us on the <a href='https://tinyurl.com/armagetronnoobs'>armagetron discord</a>, in the #competitions channel. Simply 
+      show up in that channel an hour to five minutes before a scheduled match (see schedule below) and post your tron name followed by login, for example 'player1 player1@forums' and you're signed up! More 
+      details can be found in <a href='https://forums3.armagetronad.net/viewtopic.php?f=60&t=38366'>this post</a> on the armagetron forums. 
+    </p>
+
+    <h2><u>Schedule</u></h2>
+    <p> 
+      Matches are currently divided into US and EU server sessions. Anyone is welcome to play in either of them. 
+      <h4><b>US matches</b></h4>
+      {% with data=schedule_for_us %}
+        {% include "date-card.html" %}
+      {% endwith %}
+
+      <h4><b>EU matches</b></h4>
+      {% with data=schedule_for_eu %}
+        {% include "date-card.html" %}
+      {% endwith %}
+    </p>
+
+    <h2><u>League rules</u></h2>
+    <p>
+      The goal of having leagues and rankings is for it to be fair and fun for everyone. As such, there need to be some rules in place. 
+      <ul>
+        <li>
+          If you leave at any point and don't show up again, you will have a score of 0 for that match which counts towards your ranking. 
+        </li>
+        <li>
+          If you do not show up on time, you won't be allowed to play.
+        </li>
+      </ul>
+    </p>
+
+    <h2><u>Questions, comments or feedback?</u></h2>
+    <p>
+      If you have any questions, comments or feedback, we would be happy to hear from you. Please reach out by posting in the #competitions discord channel, responding to the forums post linked above, or reaching out directly to Titanoboa or raph. Thanks!
+    </p>
   </div>
 {% endblock %}
