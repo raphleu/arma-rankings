@@ -6,7 +6,7 @@ WORKDIR /home/ranking_app
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-
+RUN pip install gunicorn==0.17.0
 COPY app app
 COPY migrations migrations
 COPY raw_data raw_data
@@ -21,6 +21,7 @@ RUN python load_matches.py
 
 WORKDIR /home/ranking_app
 
+USER ranking_app
 EXPOSE 5000
 
-ENTRYPOINT flask run --host 0.0.0.0
+ENTRYPOINT exec gunicorn --bind :5000 --access-logfile - --error-logfile - tron-ranking:app
