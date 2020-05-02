@@ -13,16 +13,32 @@ def index():
             'header': 'US',
             'ranking': us_rankings,
             'days': [
-                'Thursdays 00 GMT (8pm EST)',
-                'Saturdays 21 GMT (5pm EST)',
+                {
+                'day': 'Thursdays',
+                'time_gmt': '00 GMT',
+                'time_est': '8pm EST',
+                },
+                {
+                    'day': 'Saturdays',
+                    'time_gmt': '21 GMT',
+                    'time_est': '5pm EST',
+                },
             ]
         },
         {
             'header': 'EU',
             'ranking': eu_rankings,
             'days': [
-                'Tuesdays 19 GMT (9pm EST)',
-                'Saturdays 15 GMT (5pm EST)',
+                {
+                    'day': 'Tuesdays',
+                    'time_gmt': '19 GMT',
+                    'time_est': '9pm EST',
+                },
+                {
+                    'day': 'Saturdays',
+                    'time_gmt': '15 GMT',
+                    'time_est': '5pm EST',
+                },
             ]
         }
     ]

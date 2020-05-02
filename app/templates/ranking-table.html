@@ -1,20 +1,9 @@
-<div class="container">
-  <div class="table-responsive .col-md-12">
-    {% for country in countries %}
-      <div class="page-header">
-        <div class="row">
-          <div class="col-xs-6">
-            <h1><small>{{ country.header }} Server</small></h1>
-          </div>
-          <div class="col-xs-6 column-day-game">
-            <h4 class="header4-day-game">
-              {% for day in country.days %}
-                <span class="label label-default label-day-game">{{ day }}</span>
-              {% endfor %}
-            </h4>
-          </div>
-        </div>
-      </div>
+{% for country in countries %}
+  {% with data=country %}
+    {% include "date-card.html" %}
+  {% endwith %}
+  <div class="container">
+    <div class="table-responsive .col-md-12">
       <table class="table table-hover header-fixed">
         <thead>
         <tr>
@@ -33,6 +22,6 @@
         {% endfor %}
         </tbody>
       </table>
-    {% endfor %}
+    </div>
   </div>
-</div>
+{% endfor %}
