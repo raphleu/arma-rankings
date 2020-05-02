@@ -1,0 +1,27 @@
+{% for country in countries %}
+  {% with data=country %}
+    {% include "date-card.html" %}
+  {% endwith %}
+  <div class="container">
+    <div class="table-responsive .col-md-12">
+      <table class="table table-hover header-fixed">
+        <thead>
+        <tr>
+          <th>ranking</th>
+          <th>username</th>
+          <th>rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ranking in country.ranking %}
+          <tr>
+            <td class="username"> {{ loop.index }} </td>
+            <td class="ranking"> {{ ranking.username }} </td>
+            <td class="rating"> {{ ranking.rating }} </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endfor %}

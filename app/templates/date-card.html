@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-xs-6">
+          <h1>{{ data.header }} Server</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="container date-card">
+    <div class="row">
+      <div class="col-xs-6 col-md-4"> </div>
+      {% for day_Of_week in data.days %}
+        <div class="col-xs-6 col-md-2 date-card-col">
+          <div class="calendar">
+            <div class="frame">
+              <div class="left screw">
+                <div class="line"></div>
+                <div class="shine"></div>
+              </div>
+              <div class="right screw">
+                <div class="rerotate line"></div>
+                <div class="shine"></div>
+              </div>
+              <div class="year">
+                <h1 id="yearCaption">{{ day_Of_week.day }}</h1>
+              </div>
+            </div>
+            <div class="content">
+              <h2 id="monthCaption">{{ day_Of_week.time_gmt }}</h2>
+              <h1 id="dayCaption">{{ day_Of_week.time_est }}</h1>
+            </div>
+            <div class="over"></div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
