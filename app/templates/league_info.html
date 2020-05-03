@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+  {{super()}}
   <div class="container" style="margin-top: 100px;">
     <h2><u>How to join</u></h2>
     <p>
-      If you would like to play in rated matches and see your ranking here, please join us on the <a href='https://tinyurl.com/armagetronnoobs'>armagetron discord</a>, in the #competitions channel. Simply 
-      show up in that channel an hour to five minutes before a scheduled match (see schedule below) and post your tron name followed by login, for example 'player1 player1@forums' and you're signed up! More 
-      details can be found in <a href='https://forums3.armagetronad.net/viewtopic.php?f=60&t=38366'>this post</a> on the armagetron forums. 
+      If you would like to play in rated matches and see your ranking here, please join us on the <a href='https://tinyurl.com/armagetronnoobs'>armagetron discord</a>, in the #competitions channel. Simply
+      show up in that channel an hour to five minutes before a scheduled match (see schedule below) and post your tron name followed by login, for example 'player1 player1@forums' and you're signed up! More
+      details can be found in <a href='https://forums3.armagetronad.net/viewtopic.php?f=60&t=38366'>this post</a> on the armagetron forums.
     </p>
 
     <h2><u>Schedule</u></h2>
-    <p> 
-      Matches are currently divided into US and EU server sessions. Anyone is welcome to play in either of them. 
+    <p>
+      Matches are currently divided into US and EU server sessions. Anyone is welcome to play in either of them.
       <h4><b>US matches</b></h4>
       {% with data=schedule_for_us %}
         {% include "date-card.html" %}
@@ -25,8 +26,8 @@
 
     <h2><u>League rules</u></h2>
     <p>
-      The goal of having leagues and rankings is for it to be fair and fun for everyone. As such, there need to be some rules in place. 
-      <h3>The short version</h3> 
+      The goal of having leagues and rankings is for it to be fair and fun for everyone. As such, there need to be some rules in place.
+      <h3>The short version</h3>
       <ol>
         <li>
           Show up on time.
@@ -41,13 +42,13 @@
           Don’t ragequit, appeal to an admin if you get disconnected.
         </li>
         <li>
-          Don’t spam. Don’t /shout excessively from spec. 
+          Don’t spam. Don’t /shout excessively from spec.
         </li>
       </ol>
       <h3>The longer version</h3>
       <ol>
         <li>
-          Show up for your match on time. The first match starts on the hour, the second usually 25-30 minutes after that, and so on. If you’re not there when it starts, you will not be allowed to play and that match will not be counted towards your ranking. Our primary match servers are named "Sumo Bar League (EU 1)" or "Sumo Bar League (US 1)". 
+          Show up for your match on time. The first match starts on the hour, the second usually 25-30 minutes after that, and so on. If you’re not there when it starts, you will not be allowed to play and that match will not be counted towards your ranking. Our primary match servers are named "Sumo Bar League (EU 1)" or "Sumo Bar League (US 1)".
         </li>
         <li>
           No rejoining. If you leave at any point for any reason, you will not be able to rejoin. This way, the possible situation where a player no longer cares about their score only to start manipulating others’ scores is avoided. See Rule 4 about how leaving affects your rating.
@@ -56,7 +57,7 @@
           Don’t leave early. The scores are recorded to logs once the “Match Winner:” center message appears. To be absolutely sure, please stay an extra 5 seconds (this also lets us take screenshots of the match scores.) If you leave before any scores have been recorded, you may be assigned a score of 0 for that match, so don’t risk it.
         </li>
         <li>
-          If you leave during the first 6 rounds, the match won’t count for you and you won’t be penalized. If you exit the server after the start of round 7, you’ll finish in last place that match and thus your rating will take a hit. If you were genuinely disconnected for reasons beyond your control (internet issues, client crash, etc) you may appeal to an admin who will subjectively decide an outcome for you. If you’re not fully content with the verdict, kindly remember that the admin is taking the entire rating system into consideration; not just your personal convenience. 
+          If you leave during the first 6 rounds, the match won’t count for you and you won’t be penalized. If you exit the server after the start of round 7, you’ll finish in last place that match and thus your rating will take a hit. If you were genuinely disconnected for reasons beyond your control (internet issues, client crash, etc) you may appeal to an admin who will subjectively decide an outcome for you. If you’re not fully content with the verdict, kindly remember that the admin is taking the entire rating system into consideration; not just your personal convenience.
           <ol>
             <li>
               Obvious rage quits will be penalized. Repeat offenders will be given bans of increasing length, starting with 1 full week.
@@ -79,4 +80,5 @@
       If you have any questions, comments or feedback, we would be happy to hear from you. Please reach out by posting in the #competitions discord channel, responding to the forums post linked above, or reaching out directly to Titanoboa or raph. Thanks!
     </p>
   </div>
+  {% include "footer.html" %}
 {% endblock %}
