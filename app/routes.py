@@ -1,6 +1,7 @@
 from flask import render_template
 from app import app
 from app.models import Elorating
+from datetime import date
 
 
 schedule_for_us = [
@@ -37,20 +38,19 @@ def index():
     countries = [
         {
             'header': 'US',
-            'ranking': us_rankings,
-            'days': schedule_for_us
+            'ranking': us_rankings
         },
         {
             'header': 'EU',
-            'ranking': eu_rankings,
-            'days': schedule_for_eu
+            'ranking': eu_rankings
         }
     ]
 
     return render_template(
         'index.html',
         title='Sumobar League',
-        countries=countries
+        countries=countries,
+        year=date.today().year
     )
 
 
@@ -63,5 +63,6 @@ def league_info():
         },
         schedule_for_us = {
             'days': schedule_for_us
-        }
+        },
+        year=date.today().year
     )
