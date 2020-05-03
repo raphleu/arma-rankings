@@ -54,10 +54,10 @@ def index():
     )
 
 
-@app.route('/league_info')
+@app.route('/league-info')
 def league_info():
     return render_template(
-        'league_info.html', 
+        'league-info.html', 
         schedule_for_eu = {
             'days': schedule_for_eu
         },

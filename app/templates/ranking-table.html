@@ -1,17 +1,17 @@
 {% for country in countries %}
   <div class="container-fluid">
     <div class="container">
-      <div class="page-header">
+      <div class="page-header mt-0">
         <div class="row">
           <div class="col-xs-6">
-            <h1>{{ country.header }} Server</h1>
+            <h2>{{ country.header }} Server</h2>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="container">
-    <div class="table-responsive .col-md-12">
+    <div class="table-responsive .col-md-12" id="table-1">
       <table class="table table-hover header-fixed">
         <thead>
         <tr>
@@ -30,7 +30,7 @@
             {% if ranking.latest_delta > 0 %}
               <td class="latest-delta" style="color: green;"> +{{ ranking.latest_delta }} </td>
             {% elif ranking.latest_delta == 0 %}
-            <td class="latest-delta"> {{ ranking.latest_delta }} </td>
+            <td class="latest-delta"></td>
             {% else %}
               <td class="latest-delta" style="color: red;"> {{ ranking.latest_delta }} </td>
             {% endif %}
