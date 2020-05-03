@@ -6,14 +6,22 @@ from datetime import date
 
 schedule_for_us = [
     {
-        'day': 'Tuesdays',
+        'day': 'Thursdays',
         'time_gmt': '00 GMT',
-        'time_est': '8pm EST',
+        'time_cest': '2am CEST',
+        'time_bst': '1am BST',
+        'time_edt': '11am EDT',
+        'time_pdt': '8am PDT',
+        'time_aest': '1am AEST'
     },
     {
         'day': 'Saturdays',
         'time_gmt': '21 GMT',
-        'time_est': '5pm EST',
+        'time_cest': '11pm CEST',
+        'time_bst': '10pm BST',
+        'time_edt': '5pm EDT',
+        'time_pdt': '2pm PDT',
+        'time_aest': '7am AEST'
     },
 ]
 
@@ -21,12 +29,20 @@ schedule_for_eu = [
     {
         'day': 'Tuesdays',
         'time_gmt': '19 GMT',
-        'time_est': '1pm EST',
+        'time_cest': '9pm CEST',
+        'time_bst': '8pm BST',
+        'time_edt': '3pm EDT',
+        'time_pdt': 'noon PDT',
+        'time_aest': '5am AEST'
     },
     {
         'day': 'Saturdays',
         'time_gmt': '15 GMT',
-        'time_est': '11am EST',
+        'time_cest': '5pm CEST',
+        'time_bst': '4pm BST',
+        'time_edt': '11am EDT',
+        'time_pdt': '8am PDT',
+        'time_aest': '1am AEST'
     },
 ]
 
@@ -48,7 +64,7 @@ def index():
 
     return render_template(
         'index.html',
-        title='Sumobar League',
+        title='Sumo Bar League',
         countries=countries,
         year=date.today().year
     )
