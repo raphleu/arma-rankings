@@ -3,8 +3,8 @@
     <div class="container">
       <div class="page-header mt-0">
         <div class="row">
-          <div class="col-xs-6">
-            <h2>{{ country.header }} Server</h2>
+          <div class="col-xs-12">
+            <h2>{{ country.header }} Server Ranking</h2>
           </div>
         </div>
       </div>
@@ -15,32 +15,32 @@
       <table class="table table-hover header-fixed">
         <thead>
         <tr>
-          <th>ranking</th>
-          <th>username</th>
-          <th>rating</th>
-          <th>latest delta</th>
+          <th class="ranking">ranking</th>
+          <th class="username">username</th>
+          <th class="rating">rating</th>
+          <th class="latest-delta">latest delta</th>
         </tr>
         </thead>
         <tbody>
         {% for ranking in country.ranking %}
           <tr>
-            <td class="username"> {{ loop.index }} </td>
-            <td class="ranking"> {{ ranking.username }} </td>
+            <td class="ranking"> {{ loop.index }} </td>
+            <td class="username"> {{ ranking.username }} </td>
             <td class="rating"> {{ ranking.rating }} </td>
+
             {% if ranking.latest_delta > 0 %}
-              <td class="latest-delta" style="color: green;"> +{{ ranking.latest_delta }} </td>
-            {% elif ranking.latest_delta == 0 %}
-            <td class="latest-delta"></td>
-            {% else %}
-              <td class="latest-delta" style="color: red;"> {{ ranking.latest_delta }} </td>
+              {% set latest_delta_color = 'green' %}
+              {% set latest_delta_signal = '+' %}
+            {% elif ranking.latest_delta < 0 %}
+              {% set latest_delta_color = 'red' %}
             {% endif %}
+            <td class="latest-delta {{ latest_delta_color }}">
+              {{ latest_delta_signal }}{{ ranking.latest_delta }}
+            </td>
           </tr>
         {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
-{#  {% with data=country %}#}
-{#    {% include "date-card.html" %}#}
-{#  {% endwith %}#}
 {% endfor %}
