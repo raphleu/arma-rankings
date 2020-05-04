@@ -31,14 +31,6 @@ body {
     width: 100% 
 }
 
-.username {
-    min-width: 12.7em;
-}
-
-.ranking {
-    max-width: 5em;
-}
-
 .latest-delta.green {
     color: green;
 }
@@ -75,7 +67,7 @@ body {
 
 .header-fixed > tbody > tr > td,
 .header-fixed > thead > tr > th {
-    width: 30%;
+    width: 25%;
     float: left;
     border-top: 1px solid #3b4452;
 }
@@ -165,11 +157,16 @@ body {
     .table-responsive table {
         overflow-x: auto;
         min-width: 550px;
+        width: 100%;
     }
 
-    .header-fixed > tbody > tr > td,
-    .header-fixed > thead > tr > th {
-        width: 25%;
+    .header-fixed > tbody > tr > td:not(.username),
+    .header-fixed > thead > tr > th:not(.username) {
+        width: 20%;
+    }
+    .header-fixed > tbody > tr > td.username,
+    .header-fixed > thead > tr > th.username {
+        width: 40%;
     }
 }
 

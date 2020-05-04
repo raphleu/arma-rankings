@@ -27,17 +27,15 @@
             <td class="ranking"> {{ loop.index }} </td>
             <td class="username"> {{ ranking.username }} </td>
             <td class="rating"> {{ ranking.rating }} </td>
-            <td
-              class="
-                latest-delta
-                {% if ranking.latest_delta > 0 %}
-                  green
-                {% elif ranking.latest_delta < 0 %}
-                  red
-                {% endif %}
-              "
-            >
-              +{{ ranking.latest_delta }}
+
+            {% if ranking.latest_delta > 0 %}
+              {% set latest_delta_color = 'green' %}
+              {% set latest_delta_signal = '+' %}
+            {% elif ranking.latest_delta < 0 %}
+              {% set latest_delta_color = 'red' %}
+            {% endif %}
+            <td class="latest-delta {{ latest_delta_color }}">
+              {{ latest_delta_signal }}{{ ranking.latest_delta }}
             </td>
           </tr>
         {% endfor %}
@@ -45,7 +43,4 @@
       </table>
     </div>
   </div>
-{#  {% with data=country %}#}
-{#    {% include "date-card.html" %}#}
-{#  {% endwith %}#}
 {% endfor %}
