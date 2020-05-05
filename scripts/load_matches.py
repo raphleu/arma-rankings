@@ -20,8 +20,7 @@ directory_to_scan = '../raw_data'
 for filename in listdir('../raw_data'):
     with open('../raw_data/' + filename) as f:
         matches = json.load(f)
-        match_type = filename.rstrip('_parsed.json')
-
+        match_type = filename.rstrip('parsed.json').rstrip('_')
         username_to_rating = {}
 
         match_count = 0

@@ -57,8 +57,8 @@ schedule_for_eu = [
 @app.route('/')
 @app.route('/index')
 def index():
-    eu_rankings = Elorating.query.filter_by(matchtype='sbl_eu_scorelog').order_by(Elorating.rating.desc()).all()
-    us_rankings = Elorating.query.filter_by(matchtype='sbl_us_scorelog').order_by(Elorating.rating.desc()).all()
+    eu_rankings = Elorating.query.filter_by(matchtype='sbl-eu-matches').order_by(Elorating.rating.desc()).all()
+    us_rankings = Elorating.query.filter_by(matchtype='sbl-us-matches').order_by(Elorating.rating.desc()).all()
     countries = [
         {
             'header': 'US',

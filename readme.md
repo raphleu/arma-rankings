@@ -13,6 +13,8 @@ docker build -t ranking_app .
 
 from within the base directory (where the Dockerfile lives).
 
+**Note:** The docker image build will try to read from a google sheet to get data pertaining to matches. If it fails to do that, it will only load existing data in the raw_data directory. If you need the functionality for pulling from the google sheet, you'll have to have a key file that's not checked into github. Please contact me if you need that.  
+
 After it's built, we can run the docker container with
 ```
 docker run -p 5000:5000 ranking_app
