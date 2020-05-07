@@ -9,5 +9,10 @@
 			$('.bar-icon-nav').toggleClass('hidden');
 			$('.close-icon-nav').toggleClass('hidden');
 		});
+
+		$('.time-table div').each(function () {
+			var part = $(this).text().split(':')
+			$(this).replaceWith("<div class='l'>" + part[0] + "</div><div class='r'>" + part[1] + "</div>");
+		});
 	})
 })();

@@ -8,23 +8,23 @@ schedule_for_us = [
     {
         'day': 'Thursdays',
         'time': [
-            '00 GMT',
-            '2am CEST',
-            '1am BST',
-            '11am EDT',
-            '8am PDT',
-            '1am AEST'
+            '00:00 GMT',
+            '2:00 am CEST',
+            '1:00 am BST',
+            '8:00 pm EDT',
+            '5:00 am PDT',
+            '10:00 am AEST'
         ]
     },
     {
         'day': 'Saturdays',
         'time': [
-            '21 GMT',
-            '11pm CEST',
-            '10pm BST',
-            '5pm EDT',
-            '2pm PDT',
-            '7am AEST'
+            '21:00 GMT',
+            '11:00 pm CEST',
+            '10:00 pm BST',
+            '5:00 pm EDT',
+            '2:00 pm PDT',
+            '7:00 am AEST'
         ]
     },
 ]
@@ -33,23 +33,23 @@ schedule_for_eu = [
     {
         'day': 'Tuesdays',
         'time': [
-            '19 GMT',
-            '9pm CEST',
-            '8pm BST',
-            '3pm EDT',
-            'noon PDT',
-            '5am AEST'
+            '19:00 GMT',
+            '9:00 pm CEST',
+            '8:00 pm BST',
+            '3:00 pm EDT',
+            '12:00 pm PDT',
+            '5:00 am AEST'
         ]
     },
     {
         'day': 'Saturdays',
         'time': [
-            '15 GMT',
-            '5pm CEST',
-            '4pm BST',
-            '11am EDT',
-            '8am PDT',
-            '1am AEST'
+            '15:00 GMT',
+            '5:00 pm CEST',
+            '4:00 pm BST',
+            '11:00 am EDT',
+            '8:00 am PDT',
+            '1:00 am AEST'
         ]
     },
 ]

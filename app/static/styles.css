@@ -316,3 +316,22 @@ body {
 .mt-0 {
     margin-top: 0 !important;
 }
+
+.time-table {
+    text-align:center;
+    font-family: monospace;
+}
+.r {
+    text-align:left;
+    width:70%;
+}
+.l {
+    text-align:right;
+    width:30%;
+}
+.l:after {
+    content:':';
+}
+.r, .l{
+    display:inline-block;
+}

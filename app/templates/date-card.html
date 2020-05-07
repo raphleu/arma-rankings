@@ -17,10 +17,12 @@
                 <h1 id="yearCaption">{{ day_Of_week.day }}</h1>
               </div>
             </div>
-            <div class="content">
-              {% for time_with_timezone in day_Of_week.time %}
-                <h1 id="dayCaption">{{ time_with_timezone }}</h1>
-              {% endfor %}
+            <div class="content time-table">
+                {% for time_with_timezone in day_Of_week.time %}
+                  <div>
+                    <h1 id="dayCaption">{{ time_with_timezone }}</h1>
+                  </div>
+                {% endfor %}
             </div>
             <div class="over"></div>
           </div>
