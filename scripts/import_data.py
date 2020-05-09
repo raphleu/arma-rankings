@@ -20,13 +20,15 @@ worksheets = ["sbl-us-matches", "sbl-eu-matches"]
 for worksheet in worksheets: 
     ws = sheet.worksheet(worksheet)
     list_of_rows = ws.get_all_values()
-    match = []
+    match = {}
+    match_scores = []
     matches = []
     for row in list_of_rows:
-        if (row[1] == ''):
+        if (bool(match)):
             if (len(match) > 0):
                 matches.append(match)
             match = []
+
         else:
             username = row[0]
             score = row[1]

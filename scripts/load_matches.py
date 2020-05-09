@@ -6,7 +6,7 @@ from os import sys, path, listdir
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 from app import db
-from app.models import User, Elorating
+from app.models import User, Elorating, Match, MatchScore
 
 k_factor = 32
 starting_rating = 1500

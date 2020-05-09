@@ -90,3 +90,9 @@ def league_info():
         },
         year=date.today().year
     )
+
+@app.route('/matches')
+def matches():
+    return render_template(
+        'matches.html'
+    )
