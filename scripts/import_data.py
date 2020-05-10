@@ -23,7 +23,7 @@ for worksheet in worksheets:
     match = []
     matches = []
     for row in list_of_rows:
-        if (row[1] == ''):
+        if (row[0] == 'match'):
             if (len(match) > 0):
                 matches.append(match)
             match = []
