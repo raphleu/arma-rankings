@@ -1,6 +1,6 @@
 from app import app
 from app.models import Elorating, Match, MatchScore
-from datetime import date
+from datetime import date, datetime, timedelta
 from flask import render_template, request
 from sqlalchemy.orm import joinedload
 
@@ -58,8 +58,8 @@ schedule_for_eu = [
 @app.route('/')
 @app.route('/index')
 def index():
-    sbl_eu_matchtype = 'sbl-eu-matches'
-    sbl_us_matchtype = 'sbl-us-matches'
+    sbl_eu_matchtype = 'sbl-eu'
+    sbl_us_matchtype = 'sbl-us'
     eu_rankings = Elorating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Elorating.rating.desc()).all()
     us_rankings = Elorating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Elorating.rating.desc()).all()
     match_types = [
@@ -99,7 +99,8 @@ def league_info():
 @app.route('/matches')
 def matches():
     matchtype = request.args.get('matchtype', '')
-    matches = Match.query.join(MatchScore).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
+    two_weeks_ago = datetime.now() - timedelta(days=14)
+    matches = Match.query.join(MatchScore).filter(Match.matchtype == matchtype).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc())
     # I shouldn't need eager load, but if I do the query below should work. 
     # matches = Match.query.options(joinedload('match_scores')).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
 

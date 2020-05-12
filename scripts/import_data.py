@@ -15,7 +15,7 @@ except:
 
 sheet = client.open("SBL-results")
 
-worksheets = ["sbl-us-matches", "sbl-eu-matches"]
+worksheets = ["sbl-us", "sbl-eu"]
 
 for worksheet in worksheets: 
     ws = sheet.worksheet(worksheet)
