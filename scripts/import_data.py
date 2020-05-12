@@ -15,18 +15,23 @@ except:
 
 sheet = client.open("SBL-results")
 
-worksheets = ["sbl-us-matches", "sbl-eu-matches"]
+worksheets = ["sbl-us", "sbl-eu"]
 
 for worksheet in worksheets: 
     ws = sheet.worksheet(worksheet)
     list_of_rows = ws.get_all_values()
-    match = []
+    match = {}
     matches = []
     for row in list_of_rows:
         if (row[0] == 'match'):
-            if (len(match) > 0):
+            if (bool(match)):
                 matches.append(match)
-            match = []
+            match = {
+                'name': row[1],
+                'matchtype': worksheet,
+                'date': row[2],
+                'match_scores': []
+            }
         else:
             username = row[0]
             score = row[1]
@@ -34,10 +39,9 @@ for worksheet in worksheets:
                 'username': username,
                 'score': score
             }
-            match.append(user_object)
+            match['match_scores'].append(user_object)
 
-    if (len(match) > 0):
-        matches.append(match)
+    matches.append(match)
 
     filepath = '../raw_data/' + worksheet + '_parsed.json'
     with open(filepath, 'w') as fp:

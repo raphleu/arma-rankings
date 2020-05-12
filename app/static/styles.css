@@ -48,7 +48,7 @@ body {
     display: block;
 }
 
-.header-fixed > tbody > tr:hover {
+.table-hover > tbody > tr:hover {
     background: linear-gradient(90deg, rgba(16,16,18,0.6110819327731092) 0%, rgba(11,11,11,0.5298494397759104) 54%);
 }
 
@@ -334,4 +334,8 @@ body {
 }
 .r, .l{
     display:inline-block;
+}
+
+#match-scores .table {
+    margin-bottom: 0px;
 }

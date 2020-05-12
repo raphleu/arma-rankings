@@ -1,7 +1,8 @@
-from flask import render_template
 from app import app
-from app.models import Elorating
-from datetime import date
+from app.models import Elorating, Match, MatchScore
+from datetime import date, datetime, timedelta
+from flask import render_template, request
+from sqlalchemy.orm import joinedload
 
 
 schedule_for_us = [
@@ -57,23 +58,27 @@ schedule_for_eu = [
 @app.route('/')
 @app.route('/index')
 def index():
-    eu_rankings = Elorating.query.filter_by(matchtype='sbl-eu-matches').order_by(Elorating.rating.desc()).all()
-    us_rankings = Elorating.query.filter_by(matchtype='sbl-us-matches').order_by(Elorating.rating.desc()).all()
-    countries = [
+    sbl_eu_matchtype = 'sbl-eu'
+    sbl_us_matchtype = 'sbl-us'
+    eu_rankings = Elorating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Elorating.rating.desc()).all()
+    us_rankings = Elorating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Elorating.rating.desc()).all()
+    match_types = [
         {
             'header': 'US',
-            'ranking': us_rankings
+            'ranking': us_rankings,
+            'matchtype': sbl_us_matchtype
         },
         {
             'header': 'EU',
-            'ranking': eu_rankings
+            'ranking': eu_rankings,
+            'matchtype': sbl_eu_matchtype
         }
     ]
 
     return render_template(
         'index.html',
         title='Sumo Bar League',
-        countries=countries,
+        match_types=match_types,
         year=date.today().year
     )
 
@@ -89,4 +94,18 @@ def league_info():
             'days': schedule_for_us
         },
         year=date.today().year
+    )
+
+@app.route('/matches')
+def matches():
+    matchtype = request.args.get('matchtype', '')
+    two_weeks_ago = datetime.now() - timedelta(days=14)
+    matches = Match.query.join(MatchScore).filter(Match.matchtype == matchtype).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc())
+    # I shouldn't need eager load, but if I do the query below should work. 
+    # matches = Match.query.options(joinedload('match_scores')).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
+
+    return render_template(
+        'matches.html',
+        matches = matches,
+        matchtype = matchtype
     )
