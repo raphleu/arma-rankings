@@ -1,7 +1,8 @@
-from flask import render_template
 from app import app
-from app.models import Elorating
+from app.models import Elorating, Match, MatchScore
 from datetime import date
+from flask import render_template, request
+from sqlalchemy.orm import joinedload
 
 
 schedule_for_us = [
@@ -57,23 +58,27 @@ schedule_for_eu = [
 @app.route('/')
 @app.route('/index')
 def index():
-    eu_rankings = Elorating.query.filter_by(matchtype='sbl-eu-matches').order_by(Elorating.rating.desc()).all()
-    us_rankings = Elorating.query.filter_by(matchtype='sbl-us-matches').order_by(Elorating.rating.desc()).all()
-    countries = [
+    sbl_eu_matchtype = 'sbl-eu-matches'
+    sbl_us_matchtype = 'sbl-us-matches'
+    eu_rankings = Elorating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Elorating.rating.desc()).all()
+    us_rankings = Elorating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Elorating.rating.desc()).all()
+    match_types = [
         {
             'header': 'US',
-            'ranking': us_rankings
+            'ranking': us_rankings,
+            'matchtype': sbl_us_matchtype
         },
         {
             'header': 'EU',
-            'ranking': eu_rankings
+            'ranking': eu_rankings,
+            'matchtype': sbl_eu_matchtype
         }
     ]
 
     return render_template(
         'index.html',
         title='Sumo Bar League',
-        countries=countries,
+        match_types=match_types,
         year=date.today().year
     )
 
@@ -93,6 +98,13 @@ def league_info():
 
 @app.route('/matches')
 def matches():
+    matchtype = request.args.get('matchtype', '')
+    matches = Match.query.join(MatchScore).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
+    # I shouldn't need eager load, but if I do the query below should work. 
+    # matches = Match.query.options(joinedload('match_scores')).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
+
     return render_template(
-        'matches.html'
+        'matches.html',
+        matches = matches,
+        matchtype = matchtype
     )

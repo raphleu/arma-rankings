@@ -1,3 +1,4 @@
+import datetime
 import json
 import operator
 from multi_elo import EloPlayer, calc_elo
@@ -20,17 +21,24 @@ directory_to_scan = '../raw_data'
 for filename in listdir('../raw_data'):
     with open('../raw_data/' + filename) as f:
         matches = json.load(f)
-        match_type = filename.rstrip('parsed.json').rstrip('_')
         username_to_rating = {}
-
         match_count = 0
         for match in matches:
-            if (len(match) > 1):
+            if (len(match['match_scores']) > 1):
+                match_type = match['matchtype']
+                match_date_obj = datetime.datetime.strptime(match['date'], "%Y-%m-%d")
+                match_data = Match(
+                    name = match['name'],
+                    matchtype = match_type,
+                    date = match_date_obj
+                )
+                db.session.add(match_data)
+                db.session.flush() # This will give us an ID for the match that has not yet been commited
                 match_count += 1
                 formatted_match = []
                 place = 1
                 usernames = []
-                for player in match:
+                for player in match['match_scores']:
                     username = player['username']
                     usernames.append(username)
                     if (username_to_rating.has_key(username)):
@@ -38,6 +46,13 @@ for filename in listdir('../raw_data'):
                         formatted_match.append(EloPlayer(place=place, elo=rating))
                     else:
                         formatted_match.append(EloPlayer(place=place, elo=starting_rating))
+                    match_score = MatchScore(
+                        match_id = match_data.id,
+                        username = player['username'],
+                        score = player['score'],
+                        place = place,
+                    )
+                    db.session.add(match_score)
                     place += 1 
                 ratings = calc_elo(formatted_match, k_factor)
                 for i in range(len(ratings)):
