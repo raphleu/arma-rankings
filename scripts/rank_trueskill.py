@@ -80,6 +80,6 @@ for filename in listdir('../raw_data'):
                 latest_delta = username_to_rating[key]['latest_delta']
             )
             db.session.add(user)
-            db.session.add(Trueskillrating)
+            db.session.add(trueskillrating)
 
 db.session.commit()
