@@ -48,7 +48,7 @@ for filename in listdir('../raw_data'):
                         formatted_match.append(EloPlayer(place=place, elo=starting_rating))
                     match_score = MatchScore(
                         match_id = match_data.id,
-                        username = player['username'],
+                        username = username,
                         score = player['score'],
                         place = place,
                     )
