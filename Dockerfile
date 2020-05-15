@@ -18,7 +18,7 @@ ENV FLASK_APP tron-ranking.py
 RUN flask db upgrade
 WORKDIR /home/ranking_app/scripts
 RUN python import_data.py
-RUN python load_matches.py
+RUN python rank_elo.py
 RUN rm armarankings*
 
 WORKDIR /home/ranking_app

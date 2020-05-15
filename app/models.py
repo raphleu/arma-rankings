@@ -28,6 +28,18 @@ class Elorating(db.Model):
     def __repr__(self):
         return '<EloRating {}>'.format(self.username)
 
+class Trueskillrating(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), db.ForeignKey('user.username'))
+    matchtype = db.Column(db.String(64))
+    mu = db.Column(db.DECIMAL(precision=2))
+    sigma = db.Column(db.DECIMAL(precision=2))
+    rating = db.Column(db.DECIMAL(precision=2))
+    latest_delta = db.Column(db.DECIMAL(precision=2))
+
+    def __repr__(self):
+        return '<TrueskillRating {}>'.format(self.username)
+
 class MatchScore(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     match_id = db.Column(db.Integer, db.ForeignKey('match.id'))
