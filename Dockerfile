@@ -15,16 +15,18 @@ COPY tron-ranking.py config.py ./
 
 ENV FLASK_APP tron-ranking.py
 
+ARG RATING_TYPE
+ENV RATING_TYPE=$RATING_TYPE
+
 RUN flask db upgrade
 WORKDIR /home/ranking_app/scripts
 RUN python import_data.py
-RUN python rank_elo.py
+
+RUN if [ "$RATING_TYPE" = "trueskill" ] ; then python rank_trueskill.py ; python rank_elo.py ; fi
+
 RUN rm armarankings*
 
 WORKDIR /home/ranking_app
-
-ARG RATING_TYPE
-ENV RATING_TYPE=$RATING_TYPE
 
 USER ranking_app
 EXPOSE 5000
