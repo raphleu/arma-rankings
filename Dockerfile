@@ -21,8 +21,7 @@ ENV RATING_TYPE=$RATING_TYPE
 RUN flask db upgrade
 WORKDIR /home/ranking_app/scripts
 RUN python import_data.py
-
-RUN if [ "$RATING_TYPE" = "trueskill" ] ; then python rank_trueskill.py ; python rank_elo.py ; fi
+RUN python rank_trueskill.py
 
 RUN rm armarankings*
 
