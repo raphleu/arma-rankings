@@ -23,6 +23,9 @@ RUN rm armarankings*
 
 WORKDIR /home/ranking_app
 
+ARG RATING_TYPE
+ENV RATING_TYPE=$RATING_TYPE
+
 USER ranking_app
 EXPOSE 5000
 

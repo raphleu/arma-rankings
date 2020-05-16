@@ -15,6 +15,8 @@ starting_rating = 1500
 # clear existing ratings from the DB
 User.query.delete()
 Elorating.query.delete()
+MatchScore.query.delete()
+Match.query.delete()
 
 match_type = ''
 directory_to_scan = '../raw_data'

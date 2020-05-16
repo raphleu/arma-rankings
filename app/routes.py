@@ -1,7 +1,8 @@
 from app import app
-from app.models import Elorating, Match, MatchScore
+from app.models import Elorating, Trueskillrating, Match, MatchScore
 from datetime import date, datetime, timedelta
 from flask import render_template, request
+import os
 from sqlalchemy.orm import joinedload
 
 
@@ -55,13 +56,24 @@ schedule_for_eu = [
     },
 ]
 
+RATING_TYPE = 'elo'
+if (os.getenv('RATING_TYPE')):
+    RATING_TYPE = os.getenv('RATING_TYPE')
+
 @app.route('/')
 @app.route('/index')
 def index():
     sbl_eu_matchtype = 'sbl-eu'
     sbl_us_matchtype = 'sbl-us'
-    eu_rankings = Elorating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Elorating.rating.desc()).all()
-    us_rankings = Elorating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Elorating.rating.desc()).all()
+
+    if (RATING_TYPE == 'trueskill'):
+        eu_rankings = Trueskillrating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Trueskillrating.rating.desc()).all()
+        us_rankings = Trueskillrating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Trueskillrating.rating.desc()).all()
+    else:
+        eu_rankings = Elorating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Elorating.rating.desc()).all()
+        us_rankings = Elorating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Elorating.rating.desc()).all()
+    
+
     match_types = [
         {
             'header': 'US',

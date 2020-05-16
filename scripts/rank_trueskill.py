@@ -11,6 +11,12 @@ from app.models import User, Trueskillrating, Match, MatchScore
 
 env = TrueSkill()
 
+# clear existing ratings from the DB
+User.query.delete()
+Trueskillrating.query.delete()
+MatchScore.query.delete()
+Match.query.delete()
+
 match_type = ''
 directory_to_scan = '../raw_data'
 for filename in listdir('../raw_data'):
@@ -74,10 +80,10 @@ for filename in listdir('../raw_data'):
             trueskillrating = Trueskillrating(
                 username = key,
                 matchtype = match_type,
-                mu = username_to_rating[key]['rating'].mu,
-                sigma = username_to_rating[key]['rating'].sigma,
-                rating = username_to_rating[key]['rating'].mu - 3*username_to_rating[key]['rating'].sigma,
-                latest_delta = username_to_rating[key]['latest_delta']
+                mu = round(username_to_rating[key]['rating'].mu, 2),
+                sigma = round(username_to_rating[key]['rating'].sigma, 2),
+                rating = round(username_to_rating[key]['rating'].mu - 3*username_to_rating[key]['rating'].sigma, 2),
+                latest_delta = round(username_to_rating[key]['latest_delta'], 2)
             )
             db.session.add(user)
             db.session.add(trueskillrating)
