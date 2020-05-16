@@ -9,7 +9,7 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from app import db
 from app.models import User, Elorating, Match, MatchScore
 
-k_factor = 32
+k_factor = 16
 starting_rating = 1500
 
 # clear existing ratings from the DB
