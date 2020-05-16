@@ -19,7 +19,7 @@ RUN flask db upgrade
 WORKDIR /home/ranking_app/scripts
 RUN python import_data.py
 RUN python load_matches.py
-RUN rm armarankings*
+RUN rm -f armarankings*
 
 WORKDIR /home/ranking_app
 
