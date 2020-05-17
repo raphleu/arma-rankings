@@ -107,5 +107,6 @@ def matches():
     return render_template(
         'matches.html',
         matches = matches,
-        matchtype = matchtype
+        matchtype = matchtype,
+        year=date.today().year
     )
