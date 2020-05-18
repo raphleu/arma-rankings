@@ -15,6 +15,8 @@ starting_rating = 1500
 # clear existing ratings from the DB
 User.query.delete()
 Elorating.query.delete()
+MatchScore.query.delete()
+Match.query.delete()
 
 match_type = ''
 directory_to_scan = '../raw_data'
@@ -48,7 +50,7 @@ for filename in listdir('../raw_data'):
                         formatted_match.append(EloPlayer(place=place, elo=starting_rating))
                     match_score = MatchScore(
                         match_id = match_data.id,
-                        username = player['username'],
+                        username = username,
                         score = player['score'],
                         place = place,
                     )

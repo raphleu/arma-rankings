@@ -15,10 +15,14 @@ COPY tron-ranking.py config.py ./
 
 ENV FLASK_APP tron-ranking.py
 
+ARG RATING_TYPE
+ENV RATING_TYPE=$RATING_TYPE
+
 RUN flask db upgrade
 WORKDIR /home/ranking_app/scripts
 RUN python import_data.py
-RUN python load_matches.py
+RUN python rank_trueskill.py
+
 RUN rm -f armarankings*
 
 WORKDIR /home/ranking_app
