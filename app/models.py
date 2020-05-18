@@ -34,8 +34,8 @@ class Trueskillrating(db.Model):
     matchtype = db.Column(db.String(64))
     mu = db.Column(db.Float())
     sigma = db.Column(db.Float())
-    rating = db.Column(db.Float())
-    latest_delta = db.Column(db.Float())
+    rating = db.Column(db.Integer)
+    latest_delta = db.Column(db.Integer)
 
     def __repr__(self):
         return '<TrueskillRating {}>'.format(self.username)

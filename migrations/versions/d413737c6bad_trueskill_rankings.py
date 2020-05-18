@@ -1,8 +1,8 @@
 """trueskill rankings
 
-Revision ID: 4e3763ede298
+Revision ID: d413737c6bad
 Revises: 
-Create Date: 2020-05-15 20:37:41.853297
+Create Date: 2020-05-17 18:38:37.136017
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4e3763ede298'
+revision = 'd413737c6bad'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -57,8 +57,8 @@ def upgrade():
     sa.Column('matchtype', sa.String(length=64), nullable=True),
     sa.Column('mu', sa.Float(), nullable=True),
     sa.Column('sigma', sa.Float(), nullable=True),
-    sa.Column('rating', sa.Float(), nullable=True),
-    sa.Column('latest_delta', sa.Float(), nullable=True),
+    sa.Column('rating', sa.Integer(), nullable=True),
+    sa.Column('latest_delta', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['username'], ['user.username'], ),
     sa.PrimaryKeyConstraint('id')
     )

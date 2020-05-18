@@ -17,6 +17,9 @@ Trueskillrating.query.delete()
 MatchScore.query.delete()
 Match.query.delete()
 
+base_rating = 1500
+multiplier = 5.298
+
 match_type = ''
 directory_to_scan = '../raw_data'
 for filename in listdir('../raw_data'):
@@ -61,9 +64,11 @@ for filename in listdir('../raw_data'):
                         old_rating = 0
                         if (username_to_rating.has_key(username)):
                             old_rating = username_to_rating[username]['rating'].mu - 3 * username_to_rating[username]['rating'].sigma
+                            old_rating = old_rating * multiplier + base_rating
                         new_rating = rating.mu - 3 * rating.sigma
+                        new_rating = new_rating * multiplier + base_rating
                         rating_data = {}
-                        rating_data['latest_delta'] = new_rating - old_rating
+                        rating_data['latest_delta'] = round(new_rating, 0) - round(old_rating, 0)
                         rating_data['rating'] = rating 
                         username_to_rating[username] = rating_data
 
@@ -77,13 +82,15 @@ for filename in listdir('../raw_data'):
 
         for key in username_to_rating:
             user = User(username=key)
+            rating = username_to_rating[key]['rating'].mu - 3*username_to_rating[key]['rating'].sigma
+            rating = rating * multiplier + base_rating
             trueskillrating = Trueskillrating(
                 username = key,
                 matchtype = match_type,
                 mu = round(username_to_rating[key]['rating'].mu, 2),
                 sigma = round(username_to_rating[key]['rating'].sigma, 2),
-                rating = round(username_to_rating[key]['rating'].mu - 3*username_to_rating[key]['rating'].sigma, 2),
-                latest_delta = round(username_to_rating[key]['latest_delta'], 2)
+                rating = round(rating, 0),
+                latest_delta = username_to_rating[key]['latest_delta']
             )
             db.session.add(user)
             db.session.add(trueskillrating)
