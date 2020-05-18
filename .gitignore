@@ -2,4 +2,3 @@
 *.pyc
 app.db
 scripts/armarankings*
-raw_data/
