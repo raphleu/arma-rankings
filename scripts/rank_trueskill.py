@@ -61,7 +61,7 @@ for filename in listdir('../raw_data'):
                 ratings = env.rate(formatted_match)
                 for rating in ratings:
                     for username, rating in rating.items(): 
-                        old_rating = 0
+                        old_rating = 1500
                         if (username_to_rating.has_key(username)):
                             old_rating = username_to_rating[username]['rating'].mu - 3 * username_to_rating[username]['rating'].sigma
                             old_rating = old_rating * multiplier + base_rating
