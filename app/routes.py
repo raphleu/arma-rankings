@@ -65,7 +65,6 @@ if (os.getenv('RATING_TYPE')):
 def index():
     sbl_eu_matchtype = 'sbl-eu'
     sbl_us_matchtype = 'sbl-us'
-    print(RATING_TYPE)
 
     if (RATING_TYPE == 'trueskill'):
         eu_rankings = Trueskillrating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Trueskillrating.rating.desc()).all()
