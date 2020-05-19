@@ -24,7 +24,11 @@
         <tbody>
         {% for ranking in match_type.ranking %}
           <tr>
-            <td class="ranking"> {{ loop.index }} </td>
+            <td class="ranking"> {{ loop.index }} 
+              {% if loop.index == 1 %}
+                <img src="/static/images/gold-crown-icon.png" height="18" style="padding-top: 2px; float:right;"></img>
+              {% endif%}
+            </td>
             <td class="username"> {{ ranking.username }} </td>
             <td class="rating"> {{ ranking.rating }} </td>
 
