@@ -36,6 +36,7 @@ class Trueskillrating(db.Model):
     sigma = db.Column(db.Float())
     rating = db.Column(db.Integer)
     latest_delta = db.Column(db.Integer)
+    latest_delta_date = db.Column(db.Date)
 
     def __repr__(self):
         return '<TrueskillRating {}>'.format(self.username)

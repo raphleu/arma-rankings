@@ -69,6 +69,7 @@ for filename in listdir('../raw_data'):
                         new_rating = new_rating * multiplier + base_rating
                         rating_data = {}
                         rating_data['latest_delta'] = round(new_rating, 0) - round(old_rating, 0)
+                        rating_data['latest_delta_date'] = match_date_obj
                         rating_data['rating'] = rating 
                         username_to_rating[username] = rating_data
 
@@ -90,7 +91,8 @@ for filename in listdir('../raw_data'):
                 mu = round(username_to_rating[key]['rating'].mu, 2),
                 sigma = round(username_to_rating[key]['rating'].sigma, 2),
                 rating = round(rating, 0),
-                latest_delta = username_to_rating[key]['latest_delta']
+                latest_delta = username_to_rating[key]['latest_delta'],
+                latest_delta_date = username_to_rating[key]['latest_delta_date']
             )
             db.session.add(user)
             db.session.add(trueskillrating)

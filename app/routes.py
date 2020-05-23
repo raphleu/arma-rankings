@@ -73,6 +73,9 @@ def index():
         eu_rankings = Elorating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Elorating.rating.desc()).all()
         us_rankings = Elorating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Elorating.rating.desc()).all()
     
+    # for ranking in eu_rankings:
+    #     ranking.latest_delta_date = datetime.
+
     match_types = [
         {
             'header': 'US',
@@ -118,6 +121,6 @@ def matches():
     return render_template(
         'matches.html',
         matches = matches,
-        matchtype = matchtype,
+        matchtype = matchtype.replace("-", " ").upper(),
         year=date.today().year
     )

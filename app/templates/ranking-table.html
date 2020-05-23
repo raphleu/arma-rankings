@@ -15,10 +15,11 @@
       <table class="table table-hover header-fixed">
         <thead>
         <tr>
-          <th class="ranking">ranking</th>
-          <th class="username">username</th>
-          <th class="rating">rating</th>
-          <th class="latest-delta">latest delta</th>
+          <th class="ranking">Ranking</th>
+          <th class="username">Username</th>
+          <th class="rating">Rating</th>
+          <th class="latest-delta">Latest change</th>
+          <th class="latest-delta-date">Change date</th>
         </tr>
         </thead>
         <tbody>
@@ -41,6 +42,7 @@
             <td class="latest-delta {{ latest_delta_color }}">
               {{ latest_delta_signal }}{{ ranking.latest_delta }}
             </td>
+            <td class="latest-delta-date"> {{ ranking.latest_delta_date.strftime("%B %d") }} </td>
           </tr>
         {% endfor %}
         </tbody>
