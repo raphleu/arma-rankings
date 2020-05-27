@@ -1,7 +1,7 @@
 /*General*/
 body {
     line-height: 1.5;
-    color: white;
+    color: #C8C8C8;;
     text-align: left;
     font-size: 1.5em;
     background: rgb(40,40,56);
@@ -70,6 +70,8 @@ body {
     width: 20%;
     float: left;
     border-top: 1px solid #3b4452;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .label-day-game:first-child {
@@ -86,6 +88,8 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    border-radius: 3px;
+    margin-bottom: 1em;
 }
 
 .main-page-jumbotron-container {
@@ -158,15 +162,6 @@ body {
         overflow-x: auto;
         min-width: 550px;
         width: 100%;
-    }
-
-    .header-fixed > tbody > tr > td:not(.username),
-    .header-fixed > thead > tr > th:not(.username) {
-        width: 20%;
-    }
-    .header-fixed > tbody > tr > td.username,
-    .header-fixed > thead > tr > th.username {
-        width: 40%;
     }
 }
 
@@ -338,4 +333,61 @@ body {
 
 #match-scores .table {
     margin-bottom: 0px;
+}
+
+.clock{
+    font-family: sans-serif;
+    display: inline-block;
+    font-weight: 100;
+    text-align: center;
+}
+
+.clock > div{
+    padding: 4px;
+    display: inline-block;
+    font-size: 14px;
+    text-align: center;
+}
+
+.clock div > span{
+    display: inline-block;
+    font-size: 14px;
+    text-align: center;
+}
+
+#EU_clock > div{
+    background: #2D3057;
+    border-radius: 3px;
+    text-align: center;
+}
+
+#US_clock > div{
+    background: #5C3030;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.clocks_container{
+    text-align: center;
+}
+
+.EU_clock_container{
+    display: inline-block;
+    float: right;
+    background: #1C2048;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+.US_clock_container{
+    display: inline-block;
+    float: right;
+    background: #4E1C1C;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+.clock_title{
+    font-size: 14px;
+    text-align: center;
 }
