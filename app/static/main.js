@@ -14,6 +14,33 @@
 			var part = $(this).text().split(':')
 			$(this).replaceWith("<div class='l'>" + part[0] + "</div><div class='r'>" + part[1] + "</div>");
 		});
+
+		if ((window.location.pathname == '/') || (window.location.pathname == '/index')) {
+			var next_tuesday_eu_session = getNextOccuranceOfUTCDayAndHour(2, 18);
+			var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 14);
+			var next_eu_session;
+
+			if (next_tuesday_eu_session > next_saturday_eu_session) {
+				next_eu_session = next_saturday_eu_session
+			}
+			else {
+				next_eu_session = next_tuesday_eu_session
+			}
+
+			var next_thursday_us_session = getNextOccuranceOfUTCDayAndHour(4, 23);
+			var next_saturday_us_session = getNextOccuranceOfUTCDayAndHour(6, 20);
+			var next_us_session;
+
+			if (next_thursday_us_session > next_saturday_us_session) {
+				next_us_session = next_saturday_us_session
+			}
+			else {
+				next_us_session = next_thursday_us_session
+			}
+
+			initializeClock('EU_clock', next_eu_session);
+			initializeClock('US_clock', next_us_session)
+		}
 	})
 })();
 
@@ -65,28 +92,3 @@ function getNextOccuranceOfUTCDayAndHour(day, hour) {
     }
     return d;
 }
-
-var next_tuesday_eu_session = getNextOccuranceOfUTCDayAndHour(2, 18);
-var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 14);
-var next_eu_session;
-
-if (next_tuesday_eu_session > next_saturday_eu_session) {
-	next_eu_session = next_saturday_eu_session
-}
-else {
-	next_eu_session = next_tuesday_eu_session
-}
-
-var next_thursday_us_session = getNextOccuranceOfUTCDayAndHour(4, 23);
-var next_saturday_us_session = getNextOccuranceOfUTCDayAndHour(6, 20);
-var next_us_session;
-
-if (next_thursday_us_session > next_saturday_us_session) {
-	next_us_session = next_saturday_us_session
-}
-else {
-	next_us_session = next_thursday_us_session
-}
-
-initializeClock('EU_clock', next_eu_session);
-initializeClock('US_clock', next_us_session)

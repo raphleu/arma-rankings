@@ -1,7 +1,7 @@
 /*General*/
 body {
     line-height: 1.5;
-    color: white;
+    color: #C8C8C8;;
     text-align: left;
     font-size: 1.5em;
     background: rgb(40,40,56);
@@ -337,7 +337,6 @@ body {
 
 .clock{
     font-family: sans-serif;
-    color: #fff;
     display: inline-block;
     font-weight: 100;
     text-align: center;
@@ -347,14 +346,12 @@ body {
     padding: 4px;
     display: inline-block;
     font-size: 14px;
-    color: #9d9d9d;
     text-align: center;
 }
 
 .clock div > span{
     display: inline-block;
     font-size: 14px;
-    color: #9d9d9d;
     text-align: center;
 }
 
@@ -372,7 +369,6 @@ body {
 
 .clocks_container{
     text-align: center;
-    color: #9d9d9d;
 }
 
 .EU_clock_container{
@@ -394,5 +390,4 @@ body {
 .clock_title{
     font-size: 14px;
     text-align: center;
-    color: #9d9d9d;
 }
