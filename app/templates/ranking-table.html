@@ -4,7 +4,29 @@
       <div class="page-header mt-0">
         <div class="row">
           <div class="col-xs-12">
-            <h2>{{ match_type.header }} Server Rankings</h2>
+            <h2 style="display: inline-block;">{{ match_type.header }} Server Rankings</h2>
+            <div class="{{ match_type.header }}_clock_container">
+              <div class="clock_title">Time until next {{ match_type.header }} signups...</div>
+                <div id="{{ match_type.header }}_clock" class="clock">
+                  <div>
+                    <span class="days"></span>
+                    <div class="smalltext">days</div>
+                  </div>
+                  <div>
+                    <span class="hours"></span>
+                    <div class="smalltext">hours</div>
+                  </div>
+                  <div>
+                    <span class="minutes"></span>
+                    <div class="smalltext">minutes</div>
+                  </div>
+                  <div>
+                    <span class="seconds"></span>
+                    <div class="smalltext">seconds</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
