@@ -17,7 +17,7 @@
 
 		if ((window.location.pathname == '/') || (window.location.pathname == '/index')) {
 			var next_tuesday_eu_session = getNextOccuranceOfUTCDayAndHour(2, 18);
-			var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 14);
+			var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 17);
 			var next_eu_session;
 
 			if (next_tuesday_eu_session > next_saturday_eu_session) {

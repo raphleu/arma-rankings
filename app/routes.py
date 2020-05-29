@@ -46,12 +46,12 @@ schedule_for_eu = [
     {
         'day': 'Saturdays',
         'time': [
-            '15:00 GMT',
-            '5:00 pm CEST',
-            '4:00 pm BST',
-            '11:00 am EDT',
-            '8:00 am PDT',
-            '1:00 am AEST'
+            '18:00 GMT',
+            '8:00 pm CEST',
+            '7:00 pm BST',
+            '2:00 pm EDT',
+            '11:00 am PDT',
+            '4:00 am AEST'
         ]
     },
 ]
