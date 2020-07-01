@@ -74,6 +74,10 @@ body {
     overflow: hidden;
 }
 
+.rules-list li {
+    margin-top: 5px;
+}
+
 .label-day-game:first-child {
     margin-right: .4em;
     margin-bottom: .4em;
