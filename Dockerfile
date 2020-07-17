@@ -1,6 +1,6 @@
-FROM python:2.7-alpine
+FROM python:2.7-buster
 
-RUN adduser -D ranking_app
+RUN adduser ranking_app
 
 WORKDIR /home/ranking_app
 

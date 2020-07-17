@@ -2,6 +2,7 @@ from app import app
 from app.models import Elorating, Trueskillrating, Match, MatchScore
 from datetime import date, datetime, timedelta
 from flask import render_template, request
+from google.cloud import secretmanager
 import os
 from sqlalchemy.orm import joinedload
 
@@ -124,3 +125,16 @@ def matches():
         matchtype = matchtype.replace("-", " ").upper(),
         year=date.today().year
     )
+
+@app.route('/matches/update')
+def updateMatches():
+    print("helloo")
+    client = secretmanager.SecretManagerServiceClient()
+    key = request.args.get('key', '')
+    actual_key= client.access_secret_version('projects/794715043730/secrets/MATCH_ADMIN_KEY/versions/latest').payload.data
+    if (key == actual_key):
+        execfile("scripts/import_data.py")
+        execfile("scripts/rank_trueskill.py")
+        return "stuff"
+    else:
+        return "not stuff"
