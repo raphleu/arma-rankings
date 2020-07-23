@@ -21,9 +21,9 @@ base_rating = 1500
 multiplier = 5.298
 
 match_type = ''
-directory_to_scan = '../raw_data'
-for filename in listdir('../raw_data'):
-    with open('../raw_data/' + filename) as f:
+directory_to_scan = '/home/ranking_app/raw_data'
+for filename in listdir('/home/ranking_app/raw_data'):
+    with open('/home/ranking_app/raw_data/' + filename) as f:
         matches = json.load(f)
         username_to_rating = {}
         match_count = 0
