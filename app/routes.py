@@ -128,7 +128,6 @@ def matches():
 
 @app.route('/matches/update')
 def updateMatches():
-    print("helloo")
     client = secretmanager.SecretManagerServiceClient()
     key = request.args.get('key', '')
     actual_key= client.access_secret_version('projects/794715043730/secrets/MATCH_ADMIN_KEY/versions/latest').payload.data

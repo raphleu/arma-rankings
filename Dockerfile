@@ -4,12 +4,19 @@ RUN adduser ranking_app
 
 WORKDIR /home/ranking_app
 
+
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN pip install gunicorn==0.17.0
 COPY app app
 COPY migrations migrations
 COPY raw_data raw_data
+
+# set the owning group for raw_data to ranking_app so that we can update data from the running app 
+RUN chown -R root:ranking_app raw_data
+# allow owning groups to read and write stuff in raw_data 
+RUN chmod -R g+rw raw_data
+
 COPY scripts scripts
 COPY tron-ranking.py config.py ./
 
@@ -19,6 +26,12 @@ ARG RATING_TYPE
 ENV RATING_TYPE=$RATING_TYPE
 
 RUN flask db upgrade
+
+# set the owning group for database to ranking_app so that we can update data from the running app 
+RUN chown root:ranking_app app.db
+# allow owning groups to read and write stuff in database 
+RUN chmod g+rw app.db
+
 WORKDIR /home/ranking_app/scripts
 RUN python import_data.py
 RUN python rank_trueskill.py
