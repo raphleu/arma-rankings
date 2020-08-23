@@ -1,17 +1,15 @@
 # tron-ranking
 ### A web-app that calculates and displays user ratings based on match results
 
-**NOTE:** This is definitely not yet production ready. I took some shortcuts to get a very basic version of this off the ground quickly. It should certainly go through some cleanup/refactoring both in terms of the web UI and the code before being made available publicly. 
-
 ## How to run this
 The easiest way to get this running is using docker. There's data already committed to the repo which will be used for calculating and storing rankings in the database when you build the docker image. Once it's built, running it will start the python flask webapp and pull results from the database. 
 
 To build the image, from the command line, simply run 
 ```
-docker build -t ranking_app .
+docker build --build-arg RATING_TYPE=trueskill -t ranking_app .
 ```
 
-from within the base directory (where the Dockerfile lives).
+from within the base directory (where the Dockerfile lives). The rating type argument specifies whether to use an algorithm like TrueSkill or Elo for ratings. trueskill is preffered at this point, so let's stick with that. 
 
 **Note:** The docker image build will try to read from a google sheet to get data pertaining to matches. If it fails to do that, it will only load existing data in the raw_data directory. If you need the functionality for pulling from the google sheet, you'll have to have a key file that's not checked into github. Please contact me if you need that.  
 
