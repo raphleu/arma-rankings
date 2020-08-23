@@ -9,7 +9,6 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN pip install gunicorn==0.17.0
 COPY app app
-COPY migrations migrations
 COPY raw_data raw_data
 
 # set the owning group for raw_data to ranking_app so that we can update data from the running app 
@@ -25,6 +24,8 @@ ENV FLASK_APP tron-ranking.py
 ARG RATING_TYPE
 ENV RATING_TYPE=$RATING_TYPE
 
+RUN flask db init
+RUN flask db migrate -m "trueskill rankings"
 RUN flask db upgrade
 
 # set the owning group for database to ranking_app so that we can update data from the running app 

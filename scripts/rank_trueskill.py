@@ -18,7 +18,7 @@ MatchScore.query.delete()
 Match.query.delete()
 
 base_rating = 1500
-multiplier = 5.298
+multiplier = 12.34
 
 match_type = ''
 directory_to_scan = '/home/ranking_app/raw_data'
@@ -58,6 +58,7 @@ for filename in listdir('/home/ranking_app/raw_data'):
                     db.session.add(match_score)
                     place += 1 
 
+                match_data.quality = round(env.quality(formatted_match), 4)
                 ratings = env.rate(formatted_match)
                 for rating in ratings:
                     for username, rating in rating.items(): 

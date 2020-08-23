@@ -14,6 +14,7 @@ class Match(db.Model):
     name = db.Column(db.String(64), index=True)
     matchtype = db.Column(db.String(64))
     date = db.Column(db.Date)
+    quality = db.Column(db.Float())
 
     def __repr__(self):
         return '<Match {}>'.format(self.id)
