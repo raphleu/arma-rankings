@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {{super()}}
+<div class="container" style="margin-top: 100px;">
+
+  <style>
+    .player-button {
+                   display: none;
+              }
+  </style>
+
+  <div class='page-header'>
+    <h2><a id="how-it-works" style="text-decoration: none; color: inherit;">How it works</a></h2>
+  </div>
+  <p>
+    In an attempt to create a balanced ranking system for fort6 pickup, we will need some community input. Click the 'Generate Matchup' button below and select which player you would pick before the other in a fort6 game if you were captain. All data is anonymous and the more community input, the more accurate out matchmaking will be!
+  </p>
+  <div class='page-header'>
+    <h2>VOTE</h2>
+  </div>
+  <button id='generate' onclick="style.display = 'none'"">Generate Matchup</button>
+  <button class="player-button" id="player1"></button>
+  <button class="player-button" id="player2"></button>
+
+  <script>
+    document.getElementById("generate").onclick = function() {generateMatchup()};
+    function generateMatchup(){
+      document.getElementById("player1").style.display = "block";
+      document.getElementById("player2").style.display = "block";
+      document.getElementById("player1").innerHTML = 'player 1';
+      document.getElementById("player2").innerHTML = 'player 2';
+    }
+  </script>
+
+{% include "footer.html" %}
+{% endblock %}
