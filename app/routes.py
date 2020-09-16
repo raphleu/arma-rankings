@@ -126,6 +126,12 @@ def matches():
         year=date.today().year
     )
 
+@app.route('/rank-vote')
+def rank_vote():
+    return render_template(
+        'rank-vote.html'
+    )
+
 @app.route('/matches/update')
 def updateMatches():
     client = secretmanager.SecretManagerServiceClient()
