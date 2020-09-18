@@ -15,7 +15,7 @@
 			$(this).replaceWith("<div class='l'>" + part[0] + "</div><div class='r'>" + part[1] + "</div>");
 		});
 
-		if ((window.location.pathname == '/') || (window.location.pathname == '/index')) {
+		if (window.location.pathname.indexOf('/rankings') > -1) {
 			var next_tuesday_eu_session = getNextOccuranceOfUTCDayAndHour(2, 18);
 			var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 17);
 			var next_eu_session;
@@ -38,8 +38,14 @@
 				next_us_session = next_thursday_us_session
 			}
 
-			initializeClock('EU_clock', next_eu_session);
-			initializeClock('US_clock', next_us_session)
+			const params = new URLSearchParams(window.location.search)
+			match_type = params.get('matchtype')
+			if (match_type == "sbl-us") {
+				initializeClock('US_clock', next_us_session)
+			}
+			else if (match_type == "sbl-eu") {
+				initializeClock('EU_clock', next_eu_session);
+			}
 		}
 	})
 })();

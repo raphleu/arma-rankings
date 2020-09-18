@@ -57,6 +57,26 @@ schedule_for_eu = [
     },
 ]
 
+sbl_eu_matchtype = 'sbl-eu'
+sbl_us_matchtype = 'sbl-us'
+
+match_types = {
+    'sbl-us': {
+        'header': 'US',
+        'title': 'Sumo Bar League US',
+        'matchtype': sbl_us_matchtype,
+        'description': 'Public, ranked sumobar matches, hosted on US servers! Open to anyone, see <a href="/league-info">League Info</a> for how to join. Can you make it to the top?',
+        'banner_image': 'titan_banner3.png'
+    },
+    'sbl-eu': {
+        'header': 'EU',
+        'title': 'Sumo Bar League EU',
+        'matchtype': sbl_eu_matchtype,
+        'description': 'Public, ranked sumobar matches, hosted on EU servers! Open to anyone, see <a href="/league-info">League Info</a> for how to join. Can you make it to the top?',
+        'banner_image': 'titan_banner1.png'
+    }
+}
+
 RATING_TYPE = 'elo'
 if (os.getenv('RATING_TYPE')):
     RATING_TYPE = os.getenv('RATING_TYPE')
@@ -64,39 +84,26 @@ if (os.getenv('RATING_TYPE')):
 @app.route('/')
 @app.route('/index')
 def index():
-    sbl_eu_matchtype = 'sbl-eu'
-    sbl_us_matchtype = 'sbl-us'
-
-    if (RATING_TYPE == 'trueskill'):
-        eu_rankings = Trueskillrating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Trueskillrating.rating.desc()).all()
-        us_rankings = Trueskillrating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Trueskillrating.rating.desc()).all()
-    else:
-        eu_rankings = Elorating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Elorating.rating.desc()).all()
-        us_rankings = Elorating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Elorating.rating.desc()).all()
-    
-    # for ranking in eu_rankings:
-    #     ranking.latest_delta_date = datetime.
-
-    match_types = [
-        {
-            'header': 'US',
-            'ranking': us_rankings,
-            'matchtype': sbl_us_matchtype
-        },
-        {
-            'header': 'EU',
-            'ranking': eu_rankings,
-            'matchtype': sbl_eu_matchtype
-        }
-    ]
-
     return render_template(
         'index.html',
-        title='Sumo Bar League',
         match_types=match_types,
         year=date.today().year
     )
 
+@app.route('/rankings')
+def league_rankings():
+    match_type = request.args.get('matchtype', '')
+
+    rankings = Trueskillrating.query.filter_by(matchtype=match_type).order_by(Trueskillrating.rating.desc()).all()
+
+    return render_template(
+        'rankings.html',
+        rankings=rankings,
+        matchtype=match_type,
+        match_type= match_types[match_type],
+        match_types=match_types,
+        year=date.today().year
+    )
 
 @app.route('/league-info')
 def league_info():
@@ -108,7 +115,8 @@ def league_info():
         schedule_for_us = {
             'days': schedule_for_us
         },
-        year=date.today().year
+        year=date.today().year,
+        title='Sumo Bar League'
     )
 
 @app.route('/matches')

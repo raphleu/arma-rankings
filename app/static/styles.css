@@ -4,8 +4,9 @@ body {
     color: #C8C8C8;;
     text-align: left;
     font-size: 1.5em;
-    background: rgb(40,40,56);
-    background: linear-gradient(90deg, rgba(40,40,56,1) 0%, rgba(41,51,75,0.9248074229691877) 35%, rgba(40,40,56,1) 90%);
+    background-image: linear-gradient(90deg, rgba(16,16,18,0.6) 0%, rgba(11,11,11,0.7) 54%), url(/static/images/welcome_background.png);
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 /*
@@ -88,7 +89,6 @@ body {
 }
 
 .main-page-jumbotron {
-    background-image: linear-gradient(90deg, rgba(16,16,18,0.6) 0%, rgba(11,11,11,0.7) 54%), url(/static/images/titan_banner3.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -98,6 +98,38 @@ body {
 
 .main-page-jumbotron-container {
     margin-top: 6em;
+}
+
+/* Change the styling of the jumbotrons on the main page, but not used for headers */
+.jumbotron-collection > .main-page-jumbotron > .main-page-jumbotron-container {
+    margin-top: 0em;
+}
+
+.non-decorated-link {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.main-welcome {
+    padding-top: 2em;
+}
+
+.main-welcome-text {
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+.main-welcome-header {
+    font-size: 80px;
+}
+
+.main-welcome-container{
+    background-image: linear-gradient(90deg, rgba(16,16,18,0.6) 0%, rgba(11,11,11,0.7) 54%), url(/static/images/welcome_bg2.png);
+    margin-top: 6em;
+    padding-bottom: 17em;
+    background-size: 100%;
+    border-radius: 3px;
+    background-position: bottom;
 }
 
 /*
@@ -133,7 +165,7 @@ body {
 
 .navbar-toggle,  .navbar-toggle:hover {
     background-color: inherit !important;
-    border-color: rgba(0,0,0,.85) !important;
+    border-color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .close-icon-nav {
@@ -142,7 +174,6 @@ body {
 
 .dropdown-menu {
     background-color: #222;
-    border-color: rgba(0,0,0,.85);
     background: rgba(0,0,0,.90);
 }
 
@@ -150,13 +181,55 @@ body {
     color: #9d9d9d !important;
 }
 
+.dropdown-menu li > a:hover {
+    color: #fff !important;
+    background-color: #000;
+}
+
 .dropdown-menu ul > li > a:hover {
-    color: #fff;
+    color: #fff !important;
     background-color: #000;
 }
 
 .dropdown-menu li.divider {
     background-color: #000;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+    color: #9d9d9d !important;
+}
+
+.dropdown-submenu:hover > a:after {
+    border-left-color: #fff;
 }
 
 @media only screen and (max-width: 768px) {
