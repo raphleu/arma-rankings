@@ -1,3 +1,5 @@
-{% for match_type_id, match_type in match_types.items() %}
-    {% include "jumbotron.html" %}
+{% for key in match_types %}
+    {% for match_subtype_id, match_subtype in match_types[key].items() %}
+        {% include "jumbotron.html" %}
+    {% endfor %}
 {% endfor %}

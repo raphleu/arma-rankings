@@ -54,3 +54,4 @@ class MatchScore(db.Model):
         return '<MatchScore {}>'.format(self.username)
 
 Match.match_scores = relationship("MatchScore", order_by = MatchScore.place, back_populates = "match")
+

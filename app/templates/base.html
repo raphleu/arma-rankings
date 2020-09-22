@@ -28,17 +28,30 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Leagues</span> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              {% for match_type_id, match_type in match_types.items() %}
+              {% for match_subtype_id, match_subtype in match_types['leagues'].items() %}
                 <li class="dropdown-submenu">
-                  <a href="/index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">{{match_type.title}}</span></a>
+                  <a href="/rankings?match_subtype_id={{match_subtype_id}}" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">{{match_subtype.title}}</span></a>
                   <ul class="dropdown-menu">
-                      <li><a href="/rankings?matchtype={{match_type_id}}">Rankings</a></li>
-                      <li><a href="/league-info">League Info</a></li>
+                      <li><a href="/rankings?match_subtype_id={{match_subtype_id}}">Rankings</a></li>
+                      <li><a href="/league-info?match_subtype_id={{match_subtype_id}}">League Info</a></li>
                   </ul>
                 </li>
               {% endfor %}
             </ul>
           </li>
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pickup</span> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                {% for match_subtype_id, match_subtype in match_types['pickup'].items() %}
+                  <li class="dropdown-submenu">
+                    <a href="/index" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">{{match_subtype.title}}</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/rankings?match_subtype_id={{match_subtype_id}}">Rankings</a></li>
+                    </ul>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
         </ul>
       </div>
     </div>
@@ -48,4 +61,5 @@
 {% block scripts %}
   {{super()}}
   <script src="{{url_for('static', filename='main.js')}}"></script>
+  <script src="{{url_for('static', filename='charts.js')}}"></script>
 {% endblock %}

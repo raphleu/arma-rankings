@@ -1,10 +1,12 @@
-from app import app
+from app import app, db
 from app.models import Elorating, Trueskillrating, Match, MatchScore
 from datetime import date, datetime, timedelta
 from flask import render_template, request
 from google.cloud import secretmanager
 import os
+from sqlalchemy import func
 from sqlalchemy.orm import joinedload
+from sqlalchemy.sql.functions import coalesce
 
 
 schedule_for_us = [
@@ -57,29 +59,39 @@ schedule_for_eu = [
     },
 ]
 
-sbl_eu_matchtype = 'sbl-eu'
-sbl_us_matchtype = 'sbl-us'
-
 match_types = {
-    'sbl-us': {
-        'header': 'US',
-        'title': 'Sumo Bar League US',
-        'matchtype': sbl_us_matchtype,
-        'description': 'Public, ranked sumobar matches, hosted on US servers! Open to anyone, see <a href="/league-info">League Info</a> for how to join. Can you make it to the top?',
-        'banner_image': 'titan_banner3.png'
+    'leagues': {
+        'sbl-us': {
+            'header': 'US',
+            'title': 'Sumo Bar League US',
+            'match_subtype_id': 'sbl-us',
+            'description': 'Public, ranked sumobar matches, hosted on US servers! Open to anyone, see <a href="/league-info?match_subtype_id=sbl-us">League Info</a> for how to join. Can you make it to the top?',
+            'banner_image': 'titan_banner3.png'
+        },
+        'sbl-eu': {
+            'header': 'EU',
+            'title': 'Sumo Bar League EU',
+            'match_subtype_id': 'sbl-eu',
+            'description': 'Public, ranked sumobar matches, hosted on EU servers! Open to anyone, see <a href="/league-info?match_subtype_id=sbl-eu">League Info</a> for how to join. Can you make it to the top?',
+            'banner_image': 'titan_banner1.png'
+        }
     },
-    'sbl-eu': {
-        'header': 'EU',
-        'title': 'Sumo Bar League EU',
-        'matchtype': sbl_eu_matchtype,
-        'description': 'Public, ranked sumobar matches, hosted on EU servers! Open to anyone, see <a href="/league-info">League Info</a> for how to join. Can you make it to the top?',
-        'banner_image': 'titan_banner1.png'
+    'pickup': {
+        'pickup-fortress1': {
+            'header': 'Fort',
+            'title': 'Fortress pickup',
+            'match_subtype_id': 'pickup-fortress1',
+            'description': 'Pickup fortress! Competitive 6v6 gameplay. Sign up on discord in the #pickup channel! Rankings based on matches played in The Grid pickup servers.',
+            'banner_image': 'fortbanner3.jpg'
+        }
     }
 }
 
-RATING_TYPE = 'elo'
-if (os.getenv('RATING_TYPE')):
-    RATING_TYPE = os.getenv('RATING_TYPE')
+match_subtype_to_type = {
+    'pickup-fortress1': 'pickup',
+    'sbl-eu': 'leagues',
+    'sbl-us': 'leagues'
+}
 
 @app.route('/')
 @app.route('/index')
@@ -92,21 +104,28 @@ def index():
 
 @app.route('/rankings')
 def league_rankings():
-    match_type = request.args.get('matchtype', '')
+    match_subtype_id = request.args.get('match_subtype_id', '')
+    match_type = match_subtype_to_type[match_subtype_id]
 
-    rankings = Trueskillrating.query.filter_by(matchtype=match_type).order_by(Trueskillrating.rating.desc()).all()
+    matches_won_stmt = db.session.query(MatchScore.username, func.count('*').label('match_win_count')).filter(MatchScore.place == 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
+    matches_lost_stmt = db.session.query(MatchScore.username, func.count('*').label('match_lost_count')).filter(MatchScore.place > 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
+
+    rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count')).filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP')).outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username).outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username).order_by(Trueskillrating.rating.desc()).all()
 
     return render_template(
         'rankings.html',
         rankings=rankings,
-        matchtype=match_type,
-        match_type= match_types[match_type],
+        match_type=match_type,
+        match_subtype= match_types[match_type][match_subtype_id],
         match_types=match_types,
         year=date.today().year
     )
 
 @app.route('/league-info')
 def league_info():
+    match_subtype_id = request.args.get('match_subtype_id', '')
+    match_type = match_subtype_to_type[match_subtype_id]
+
     return render_template(
         'league-info.html', 
         schedule_for_eu = {
@@ -116,22 +135,28 @@ def league_info():
             'days': schedule_for_us
         },
         year=date.today().year,
-        title='Sumo Bar League'
+        title='Sumo Bar League',
+        match_types=match_types,
+        match_subtype=match_types[match_type][match_subtype_id]
     )
 
 @app.route('/matches')
 def matches():
-    matchtype = request.args.get('matchtype', '')
+    match_subtype_id = request.args.get('match_subtype_id', '')
+    match_type = match_subtype_to_type[match_subtype_id]
+    
     two_weeks_ago = datetime.now() - timedelta(days=14)
-    matches = Match.query.join(MatchScore).filter(Match.matchtype == matchtype).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc())
+    matches = Match.query.join(MatchScore).filter(Match.matchtype == match_subtype_id).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc())
     # I shouldn't need eager load, but if I do the query below should work. 
     # matches = Match.query.options(joinedload('match_scores')).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
 
     return render_template(
         'matches.html',
         matches = matches,
-        matchtype = matchtype.replace("-", " ").upper(),
-        year=date.today().year
+        matchtype = match_subtype_id.replace("-", " ").upper(),
+        match_types=match_types,
+        year=date.today().year,
+        match_subtype=match_types[match_type][match_subtype_id]
     )
 
 @app.route('/matches/update')
