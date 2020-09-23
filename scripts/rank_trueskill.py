@@ -9,6 +9,9 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from app import db
 from app.models import User, Trueskillrating, Match, MatchScore
 
+fort_env = TrueSkill(mu=8, sigma=3, draw_probability=0.0, beta=7, tau=0.07)
+fort_env.make_as_global()
+
 env = TrueSkill()
 
 # clear existing ratings from the DB
@@ -18,7 +21,7 @@ MatchScore.query.delete()
 Match.query.delete()
 
 base_rating = 1500
-multiplier = 12.34
+multiplier = 23.45
 
 match_type = ''
 directory_to_scan = '/home/ranking_app/raw_data'
@@ -57,19 +60,21 @@ for filename in listdir(directory_to_scan):
                             rating = username_to_rating[username]['rating']
                             team_rankings[username] = rating
                         else:
-                            rating = Rating()
+                            rating = Rating(mu=4)
                             team_rankings[username] = rating
+                        transformed_rating = round((rating.mu - 3 * rating.sigma) * multiplier + base_rating, 0)
                         match_score = MatchScore(
                             match_id = match_data.id,
                             username = username,
                             score = player['score'],
                             place = place,
+                            entry_rating = transformed_rating,
                         )
                         db.session.add(match_score)
                     formatted_match.append(team_rankings)
                     place += 1
-                match_data.quality = round(env.quality(formatted_match), 4)
-                teams_ratings = env.rate(formatted_match)
+                match_data.quality = round(fort_env.quality(formatted_match), 4)
+                teams_ratings = fort_env.rate(formatted_match)
                 for team_ratings in teams_ratings:
                     for username, rating in team_ratings.items(): 
                         old_rating = 1500

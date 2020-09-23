@@ -79,10 +79,11 @@ match_types = {
     'pickup': {
         'pickup-fortress1': {
             'header': 'Fort',
-            'title': 'Fortress pickup',
+            'title': 'Fortress pickup (alpha)',
             'match_subtype_id': 'pickup-fortress1',
-            'description': 'Pickup fortress! Competitive 6v6 gameplay. Sign up on discord in the #pickup channel! Rankings based on matches played in The Grid pickup servers.',
-            'banner_image': 'fortbanner3.jpg'
+            'description': 'Pickup fortress! Competitive 6v6 gameplay. Sign up on discord in the #pickup channel!',
+            'banner_image': 'fort_bg2.png',
+            'about': 'The ratings here are calculated using an algorithm called Trueskill, invented by microsoft for multiplayer games. Trueskill has many factors that go into it and can be tuned. For example, Trueskill takes into account the strength of your opposing team, so two players with the same number of wins and losses can have different ratings (a loss to a high rated team means less of a hit to your rating than one to a weaker team). Individual score does not matter, purely winning or losing and who you are against. More info can be found <a href="https://trueskill.org/">here</a>. I have tried tuning parameters to work best for this gametype, but if you have suggestions for how they can be improved, please let me (raph) know. <b>Play in 20 or more matches to show up in the rankings.</b><br><br>Current rankings are based on matches played in The Grid pickup fortress server, NY from August 14th to Sept 21st.'
         }
     }
 }
@@ -109,8 +110,12 @@ def league_rankings():
 
     matches_won_stmt = db.session.query(MatchScore.username, func.count('*').label('match_win_count')).filter(MatchScore.place == 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
     matches_lost_stmt = db.session.query(MatchScore.username, func.count('*').label('match_lost_count')).filter(MatchScore.place > 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
-
-    rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count')).filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP')).outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username).outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username).order_by(Trueskillrating.rating.desc()).all()
+    
+    if (match_type == 'pickup'):
+        # Similar query to below, except with a clause where you need 20 or more matches to show up
+        rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count')).filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP')).outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username).outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username).filter(matches_won_stmt.c.match_win_count + matches_lost_stmt.c.match_lost_count >= 20).order_by(Trueskillrating.rating.desc()).all()
+    else: 
+        rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count')).filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP')).outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username).outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username).order_by(Trueskillrating.rating.desc()).all()
 
     return render_template(
         'rankings.html',

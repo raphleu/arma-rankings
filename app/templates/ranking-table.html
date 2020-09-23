@@ -29,6 +29,19 @@
               </div>
             </div>
           {% endif %}
+          {% if 'about' in match_subtype %}
+            <span class="about">
+              <button class="btn about-botton" type="button" data-toggle="collapse" data-target="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout">
+                About these ratings
+                <span class="caret"></span>
+              </button>
+              <div class="collapse" id="collapseAbout">
+                <div class="card card-body">
+                  {{ match_subtype.about|safe }}
+                </div>
+              </div>
+            </span>
+          {% endif %}
         </div>
       </div>
     </div>

@@ -495,3 +495,8 @@ body {
     font-size: 14px;
     text-align: center;
 }
+
+.about-botton{
+    margin-bottom: 10px;
+    background: rgba(0,0,0,.40);
+}

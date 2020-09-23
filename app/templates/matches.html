@@ -21,14 +21,18 @@
                     <thead>
                     <tr>
                     <th class="player">player</th>
+                    <th class="entry_rating">entry rating</th>
                     <th class="score">score</th>
+                    <th class="place">place</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for matchscore in match.match_scores %}
                     <tr>
                         <td class="player"> {{ matchscore.username }} </td>
+                        <td class="entry_rating"> {{ matchscore.entry_rating }} </td>
                         <td class="score"> {{ matchscore.score }} </td>
+                        <td class="place"> {{ matchscore.place }} </td>
                     </tr>
                     {% endfor %}
                     </tbody>
