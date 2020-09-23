@@ -1,9 +1,8 @@
 FROM python:2.7-buster
 
-RUN adduser ranking_app
+RUN useradd -ms /bin/bash ranking_app
 
 WORKDIR /home/ranking_app
-
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt

@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% include "jumbotron.html" %}
-  {% include "ranking-table.html" %}
+  <div class="main-welcome">
+      <div class="jumbotron container main-welcome-container">
+        <div class="main-welcome-text">
+          <h1 style="font-size: 70px">Welcome</h1>
+          <p>This site is dedicated to rankings based on competitive play of <a href="https://store.steampowered.com/app/1306180/Retrocycles/">Retrocycles</a> (formerly known as ArmagetronAdvanced). If you are new to the game, 
+            visit the <a href="https://forums3.armagetronad.net/index.php">forums</a> or the <a href="https://steamcommunity.com/linkfilter/?url=http://discord.gg/dcpaauj">community discord</a> to learn more. Otherwise, select from the top menu or a league below to navigate!
+          </p>
+        </div>
+      </div>
+  </div>
+  <div class="container jumbotron-collection">
+    {% include "jumbotron-collection.html" %}
+  </div>
   {% include "footer.html" %}
 {% endblock %}

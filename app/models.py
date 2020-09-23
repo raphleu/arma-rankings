@@ -49,8 +49,10 @@ class MatchScore(db.Model):
     score = db.Column(db.Integer)
     place = db.Column(db.Integer)
     match = relationship("Match", back_populates="match_scores")
+    entry_rating = db.Column(db.Integer)
 
     def __repr__(self):
         return '<MatchScore {}>'.format(self.username)
 
 Match.match_scores = relationship("MatchScore", order_by = MatchScore.place, back_populates = "match")
+

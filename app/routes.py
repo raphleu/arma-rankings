@@ -1,10 +1,12 @@
-from app import app
+from app import app, db
 from app.models import Elorating, Trueskillrating, Match, MatchScore
 from datetime import date, datetime, timedelta
 from flask import render_template, request
 from google.cloud import secretmanager
 import os
+from sqlalchemy import func
 from sqlalchemy.orm import joinedload
+from sqlalchemy.sql.functions import coalesce
 
 
 schedule_for_us = [
@@ -57,49 +59,78 @@ schedule_for_eu = [
     },
 ]
 
-RATING_TYPE = 'elo'
-if (os.getenv('RATING_TYPE')):
-    RATING_TYPE = os.getenv('RATING_TYPE')
+match_types = {
+    'leagues': {
+        'sbl-us': {
+            'header': 'US',
+            'title': 'Sumo Bar League US',
+            'match_subtype_id': 'sbl-us',
+            'description': 'Public, ranked sumobar matches, hosted on US servers! Open to anyone, see <a href="/league-info?match_subtype_id=sbl-us">League Info</a> for how to join. Can you make it to the top?',
+            'banner_image': 'titan_banner3.png'
+        },
+        'sbl-eu': {
+            'header': 'EU',
+            'title': 'Sumo Bar League EU',
+            'match_subtype_id': 'sbl-eu',
+            'description': 'Public, ranked sumobar matches, hosted on EU servers! Open to anyone, see <a href="/league-info?match_subtype_id=sbl-eu">League Info</a> for how to join. Can you make it to the top?',
+            'banner_image': 'titan_banner1.png'
+        }
+    },
+    'pickup': {
+        'pickup-fortress1': {
+            'header': 'Fort',
+            'title': 'Fortress pickup (alpha)',
+            'match_subtype_id': 'pickup-fortress1',
+            'description': 'Pickup fortress! Competitive 6v6 gameplay. Sign up on discord in the #pickup channel!',
+            'banner_image': 'fort_bg2.png',
+            'about': 'The ratings here are calculated using an algorithm called Trueskill, invented by microsoft for multiplayer games. Trueskill has many factors that go into it and can be tuned. For example, Trueskill takes into account the strength of your opposing team, so two players with the same number of wins and losses can have different ratings (a loss to a high rated team means less of a hit to your rating than one to a weaker team). Individual score does not matter, purely winning or losing and who you are against. More info can be found <a href="https://trueskill.org/">here</a>. I have tried tuning parameters to work best for this gametype, but if you have suggestions for how they can be improved, please let me (raph) know. <b>Play in 20 or more matches to show up in the rankings.</b><br><br>Current rankings are based on matches played in The Grid pickup fortress server, NY from August 14th to Sept 21st.'
+        }
+    }
+}
+
+match_subtype_to_type = {
+    'pickup-fortress1': 'pickup',
+    'sbl-eu': 'leagues',
+    'sbl-us': 'leagues'
+}
 
 @app.route('/')
 @app.route('/index')
 def index():
-    sbl_eu_matchtype = 'sbl-eu'
-    sbl_us_matchtype = 'sbl-us'
-
-    if (RATING_TYPE == 'trueskill'):
-        eu_rankings = Trueskillrating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Trueskillrating.rating.desc()).all()
-        us_rankings = Trueskillrating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Trueskillrating.rating.desc()).all()
-    else:
-        eu_rankings = Elorating.query.filter_by(matchtype=sbl_eu_matchtype).order_by(Elorating.rating.desc()).all()
-        us_rankings = Elorating.query.filter_by(matchtype=sbl_us_matchtype).order_by(Elorating.rating.desc()).all()
-    
-    # for ranking in eu_rankings:
-    #     ranking.latest_delta_date = datetime.
-
-    match_types = [
-        {
-            'header': 'US',
-            'ranking': us_rankings,
-            'matchtype': sbl_us_matchtype
-        },
-        {
-            'header': 'EU',
-            'ranking': eu_rankings,
-            'matchtype': sbl_eu_matchtype
-        }
-    ]
-
     return render_template(
         'index.html',
-        title='Sumo Bar League',
         match_types=match_types,
         year=date.today().year
     )
 
+@app.route('/rankings')
+def league_rankings():
+    match_subtype_id = request.args.get('match_subtype_id', '')
+    match_type = match_subtype_to_type[match_subtype_id]
+
+    matches_won_stmt = db.session.query(MatchScore.username, func.count('*').label('match_win_count')).filter(MatchScore.place == 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
+    matches_lost_stmt = db.session.query(MatchScore.username, func.count('*').label('match_lost_count')).filter(MatchScore.place > 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
+    
+    if (match_type == 'pickup'):
+        # Similar query to below, except with a clause where you need 20 or more matches to show up
+        rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count')).filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP')).outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username).outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username).filter(matches_won_stmt.c.match_win_count + matches_lost_stmt.c.match_lost_count >= 20).order_by(Trueskillrating.rating.desc()).all()
+    else: 
+        rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count')).filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP')).outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username).outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username).order_by(Trueskillrating.rating.desc()).all()
+
+    return render_template(
+        'rankings.html',
+        rankings=rankings,
+        match_type=match_type,
+        match_subtype= match_types[match_type][match_subtype_id],
+        match_types=match_types,
+        year=date.today().year
+    )
 
 @app.route('/league-info')
 def league_info():
+    match_subtype_id = request.args.get('match_subtype_id', '')
+    match_type = match_subtype_to_type[match_subtype_id]
+
     return render_template(
         'league-info.html', 
         schedule_for_eu = {
@@ -108,22 +139,29 @@ def league_info():
         schedule_for_us = {
             'days': schedule_for_us
         },
-        year=date.today().year
+        year=date.today().year,
+        title='Sumo Bar League',
+        match_types=match_types,
+        match_subtype=match_types[match_type][match_subtype_id]
     )
 
 @app.route('/matches')
 def matches():
-    matchtype = request.args.get('matchtype', '')
+    match_subtype_id = request.args.get('match_subtype_id', '')
+    match_type = match_subtype_to_type[match_subtype_id]
+    
     two_weeks_ago = datetime.now() - timedelta(days=14)
-    matches = Match.query.join(MatchScore).filter(Match.matchtype == matchtype).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc())
+    matches = Match.query.join(MatchScore).filter(Match.matchtype == match_subtype_id).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc())
     # I shouldn't need eager load, but if I do the query below should work. 
     # matches = Match.query.options(joinedload('match_scores')).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
 
     return render_template(
         'matches.html',
         matches = matches,
-        matchtype = matchtype.replace("-", " ").upper(),
-        year=date.today().year
+        matchtype = match_subtype_id.replace("-", " ").upper(),
+        match_types=match_types,
+        year=date.today().year,
+        match_subtype=match_types[match_type][match_subtype_id]
     )
 
 @app.route('/matches/update')

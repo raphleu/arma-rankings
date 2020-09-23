@@ -1,13 +1,14 @@
-{% for match_type in match_types %}
-  <div class="container-fluid">
-    <div class="container">
-      <div class="page-header mt-0">
-        <div class="row">
-          <div class="col-xs-12">
-            <h2 style="display: inline-block;">{{ match_type.header }} Server Rankings</h2>
-            <div class="{{ match_type.header }}_clock_container">
-              <div class="clock_title">Time until next <u><a href="/league-info#how-to-join" style="color: #C8C8C8">{{ match_type.header }} signups...</a></u></div>
-                <div id="{{ match_type.header }}_clock" class="clock">
+<script src="https://benpickles.github.io/peity/jquery.peity.js"></script>
+<div class="container-fluid">
+  <div class="container">
+    <div class="page-header mt-0">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 style="display: inline-block;">{{ match_subtype.header }} Server Rankings</h2>
+          {% if match_type != 'pickup' %}
+            <div class="{{ match_subtype.header }}_clock_container">
+              <div class="clock_title">Time until next <u><a href="/league-info#how-to-join" style="color: #C8C8C8">{{ match_subtype.header }} signups...</a></u></div>
+                <div id="{{ match_subtype.header }}_clock" class="clock">
                   <div>
                     <span class="days"></span>
                     <div class="smalltext">days</div>
@@ -27,49 +28,64 @@
                 </div>
               </div>
             </div>
-          </div>
+          {% endif %}
+          {% if 'about' in match_subtype %}
+            <span class="about">
+              <button class="btn about-botton" type="button" data-toggle="collapse" data-target="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout">
+                About these ratings
+                <span class="caret"></span>
+              </button>
+              <div class="collapse" id="collapseAbout">
+                <div class="card card-body">
+                  {{ match_subtype.about|safe }}
+                </div>
+              </div>
+            </span>
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
-  <div class="container">
-    <div class="table-responsive .col-md-12">
-      <table class="table table-hover header-fixed">
-        <thead>
+</div>
+<div class="container">
+  <div class="table-responsive .col-md-12">
+    <table class="table table-hover header-fixed">
+      <thead>
+      <tr>
+        <th class="ranking">Ranking</th>
+        <th class="username">Username</th>
+        <th class="rating">Rating</th>
+        <th class="latest-delta">Latest change</th>
+        <th class="latest-delta-date">Change date</th>
+        <th class="matches-wl">Matches W/L</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for ranking in rankings %}
         <tr>
-          <th class="ranking">Ranking</th>
-          <th class="username">Username</th>
-          <th class="rating">Rating</th>
-          <th class="latest-delta">Latest change</th>
-          <th class="latest-delta-date">Change date</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for ranking in match_type.ranking %}
-          <tr>
-            <td class="ranking"> {{ loop.index }} 
-              {% if loop.index == 1 %}
-                <img src="/static/images/gold-crown-icon.png" height="18" style="padding-top: 2px; float:right;"></img>
-              {% endif%}
-            </td>
-            <td class="username"> {{ ranking.username }} </td>
-            <td class="rating"> {{ ranking.rating }} </td>
+          <td class="ranking"> {{ loop.index }} 
+            {% if loop.index == 1 %}
+              <img src="/static/images/gold-crown-icon.png" height="18" style="padding-top: 2px; float:right;"></img>
+            {% endif%}
+          </td>
+          <td class="username"> {{ ranking.Trueskillrating.username }} </td>
+          <td class="rating"> {{ ranking.Trueskillrating.rating }} </td>
 
-            {% if ranking.latest_delta > 0 %}
-              {% set latest_delta_color = 'green' %}
-              {% set latest_delta_signal = '+' %}
-            {% elif ranking.latest_delta < 0 %}
-              {% set latest_delta_color = 'red' %}
-            {% endif %}
-            <td class="latest-delta {{ latest_delta_color }}">
-              {{ latest_delta_signal }}{{ ranking.latest_delta }}
-            </td>
-            <td class="latest-delta-date"> {{ ranking.latest_delta_date.strftime("%B %d") }} </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-      <a href="/matches?matchtype={{ match_type.matchtype }}">Match history</a>
-    </div>
+          {% if ranking.Trueskillrating.latest_delta > 0 %}
+            {% set latest_delta_color = 'green' %}
+            {% set latest_delta_signal = '+' %}
+          {% elif ranking.Trueskillrating.latest_delta < 0 %}
+            {% set latest_delta_color = 'red' %}
+          {% endif %}
+          <td class="latest-delta {{ latest_delta_color }}">
+            {{ latest_delta_signal }}{{ ranking.Trueskillrating.latest_delta }}
+          </td>
+          <td class="latest-delta-date"> {{ ranking.Trueskillrating.latest_delta_date.strftime("%B %d") }} </td>
+          <td class="matches-wl-cell" data-toggle="tooltip" data-placement="top" data-html="true" title="Wins: {{ ranking.match_win_count }}<br>Losses: {{ ranking.match_lost_count }}"><span class="donut" data-peity='{ "fill": ["red", "green"]}'>{{ ranking.match_lost_count }},{{ ranking.match_win_count }}</span></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <a href="/matches?match_subtype_id={{ match_subtype.match_subtype_id }}">Match history</a>
   </div>
-{% endfor %}
+</div>
