@@ -9,7 +9,10 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from app import db
 from app.models import User, Trueskillrating, Match, MatchScore
 
-fort_env = TrueSkill(mu=8, sigma=3, draw_probability=0.0, beta=7, tau=0.07)
+fort_mu = 8
+fort_starting_mu = 4
+fort_sigma = 3
+fort_env = TrueSkill(mu=fort_mu, sigma=fort_sigma, draw_probability=0.0, beta=7, tau=0.07)
 fort_env.make_as_global()
 
 env = TrueSkill()
@@ -22,6 +25,8 @@ Match.query.delete()
 
 base_rating = 1500
 multiplier = 23.45
+
+fort_starting_rating = (fort_starting_mu - 3 * fort_sigma) * multiplier + base_rating
 
 match_type = ''
 directory_to_scan = '/home/ranking_app/raw_data'
@@ -51,6 +56,7 @@ for filename in listdir(directory_to_scan):
                 match_teams = match['teams']
                 sorted_teams = sorted(match_teams, key = lambda x: (match_teams[x]['score']), reverse=True)
                 place = 1
+                match_scores = {}
                 for team in sorted_teams:
                     team_rankings = {}
                     for player in match_teams[team]['players']:
@@ -60,7 +66,7 @@ for filename in listdir(directory_to_scan):
                             rating = username_to_rating[username]['rating']
                             team_rankings[username] = rating
                         else:
-                            rating = Rating(mu=4)
+                            rating = Rating(mu=fort_starting_mu)
                             team_rankings[username] = rating
                         transformed_rating = round((rating.mu - 3 * rating.sigma) * multiplier + base_rating, 0)
                         match_score = MatchScore(
@@ -71,18 +77,20 @@ for filename in listdir(directory_to_scan):
                             entry_rating = transformed_rating,
                         )
                         db.session.add(match_score)
+                        match_scores[username] = match_score
                     formatted_match.append(team_rankings)
                     place += 1
                 match_data.quality = round(fort_env.quality(formatted_match), 4)
                 teams_ratings = fort_env.rate(formatted_match)
                 for team_ratings in teams_ratings:
                     for username, rating in team_ratings.items(): 
-                        old_rating = 1500
+                        old_rating = fort_starting_rating
                         if (username_to_rating.has_key(username)):
                             old_rating = username_to_rating[username]['rating'].mu - 3 * username_to_rating[username]['rating'].sigma
                             old_rating = old_rating * multiplier + base_rating
                         new_rating = rating.mu - 3 * rating.sigma
                         new_rating = new_rating * multiplier + base_rating
+                        match_scores[username].exit_rating = round(new_rating, 0)
                         rating_data = {}
                         rating_data['latest_delta'] = round(new_rating, 0) - round(old_rating, 0)
                         rating_data['latest_delta_date'] = match_date_obj
@@ -107,6 +115,7 @@ for filename in listdir(directory_to_scan):
                     match_count += 1
                     formatted_match = []
                     place = 1
+                    match_scores = {}
                     for player in match['match_scores']:
                         username = player['username']
                         if (username_to_rating.has_key(username)):
@@ -115,13 +124,16 @@ for filename in listdir(directory_to_scan):
                         else:
                             rating = Rating()
                             formatted_match.append({username: rating})
+                        transformed_rating = round((rating.mu - 3 * rating.sigma) * multiplier + base_rating, 0)
                         match_score = MatchScore(
                             match_id = match_data.id,
                             username = username,
                             score = player['score'],
                             place = place,
+                            entry_rating = transformed_rating,
                         )
                         db.session.add(match_score)
+                        match_scores[username] = match_score
                         place += 1 
 
                     match_data.quality = round(env.quality(formatted_match), 4)
@@ -134,6 +146,7 @@ for filename in listdir(directory_to_scan):
                                 old_rating = old_rating * multiplier + base_rating
                             new_rating = rating.mu - 3 * rating.sigma
                             new_rating = new_rating * multiplier + base_rating
+                            match_scores[username].exit_rating = round(new_rating, 0)
                             rating_data = {}
                             rating_data['latest_delta'] = round(new_rating, 0) - round(old_rating, 0)
                             rating_data['latest_delta_date'] = match_date_obj

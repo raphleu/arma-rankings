@@ -2,7 +2,7 @@
 
 {% block content %}
     {% include "jumbotron.html" %}  
-    <div class="container" style="margin-top: 100px;">
+    <div class="container">
     <div class='page-header'>
         <h2>{{matchtype}} 2-week match history</h2>
     </div>
@@ -12,7 +12,7 @@
                 <table class="table table-hover">
                     <caption>
                         <div style="display: inline;">
-                            {{ match.name }} | Quality score: {{match.quality}}
+                            {{ match.name }} | <span data-toggle="tooltip" data-placement="top" title="Quality score represents how evenly matched teams/players are. Higher score means a closer outcome is expected.">Quality score: {{match.quality}} <span class="glyphicon glyphicon-info-sign"></span></span>
                         </div>
                         <div style="display: inline; float: right;padding-right: 1em;">
                             {{ match.date.strftime("%B %d, %Y") }} 
@@ -21,18 +21,20 @@
                     <thead>
                     <tr>
                     <th class="player">player</th>
-                    <th class="entry_rating">entry rating</th>
-                    <th class="score">score</th>
+                    <th class="score"><div data-toggle="tooltip" data-placement="top" title="The player's points in a match. -1 indicates that the player left before the match officially ended, so it's harder to get their score.">score <span class="glyphicon glyphicon-info-sign"></span></div></th>
                     <th class="place">place</th>
+                    <th class="entry_rating"><div data-toggle="tooltip" data-placement="top" title="The player's rating entering the match.">entry rating <span class="glyphicon glyphicon-info-sign"></span></div></th>
+                    <th class="exit_rating"><div data-toggle="tooltip" data-placement="top" title="The player's rating after the match.">exit rating <span class="glyphicon glyphicon-info-sign"></span></div></th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for matchscore in match.match_scores %}
                     <tr>
                         <td class="player"> {{ matchscore.username }} </td>
-                        <td class="entry_rating"> {{ matchscore.entry_rating }} </td>
                         <td class="score"> {{ matchscore.score }} </td>
                         <td class="place"> {{ matchscore.place }} </td>
+                        <td class="entry_rating"> {{ matchscore.entry_rating }} </td>
+                        <td class="exit_rating"> {{ matchscore.exit_rating }} </td>
                     </tr>
                     {% endfor %}
                     </tbody>

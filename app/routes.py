@@ -151,7 +151,7 @@ def matches():
     match_type = match_subtype_to_type[match_subtype_id]
     
     two_weeks_ago = datetime.now() - timedelta(days=14)
-    matches = Match.query.join(MatchScore).filter(Match.matchtype == match_subtype_id).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc())
+    matches = Match.query.join(MatchScore).filter(Match.matchtype == match_subtype_id).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc(), Match.name.desc())
     # I shouldn't need eager load, but if I do the query below should work. 
     # matches = Match.query.options(joinedload('match_scores')).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
 
@@ -171,7 +171,7 @@ def updateMatches():
     actual_key= client.access_secret_version('projects/794715043730/secrets/MATCH_ADMIN_KEY/versions/latest').payload.data
     if (key == actual_key):
         execfile("scripts/import_data.py")
-        execfile("scripts/rank_trueskill.py")
+        os.system("python /home/ranking_app/scripts/rank_trueskill.py")
         return "stuff"
     else:
         return "not stuff"
