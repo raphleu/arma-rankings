@@ -1,5 +1,8 @@
 FROM python:2.7-buster
 
+RUN apt-get update
+RUN apt-get install -y sqlite3 vim
+
 RUN useradd -ms /bin/bash ranking_app
 
 WORKDIR /home/ranking_app

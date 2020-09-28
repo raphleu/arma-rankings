@@ -30,6 +30,7 @@ sheet = client.open("SBL-results")
 worksheets = ["sbl-us", "sbl-eu"]
 
 for worksheet in worksheets: 
+    print("Importing data from worksheet: " + worksheet)
     ws = sheet.worksheet(worksheet)
     list_of_rows = ws.get_all_values()
     match = {}

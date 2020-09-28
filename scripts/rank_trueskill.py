@@ -23,8 +23,8 @@ multiplier = 23.45
 def transform_rating(mu, sigma):
     return round((mu - 3 * sigma) * multiplier + base_addition, 0)
 
-def match_already_exists(match_name):
-    matching_match_count = db.session.query(Match).filter(Match.name.like(match_name)).count()
+def match_already_exists(match_name, match_type):
+    matching_match_count = db.session.query(Match).filter(Match.name.like(match_name), Match.matchtype.like(match_type)).count()
     if (matching_match_count > 0):
         return True
     else:
@@ -56,7 +56,8 @@ for filename in listdir(directory_to_scan):
         if ('pickup-fortress' in filename):
             for match in matches:
                 # if this match already exists in the DB, we don't want to do anything with it, so we'll carry on to the next match
-                if match_already_exists(match['name']):
+                if match_already_exists(match['name'], match['matchtype']):
+                    print("Found a duplicate match with name: " + match['name'])
                     continue
                 match_type = match['matchtype']
                 match_date_obj = datetime.datetime.strptime(match['date'], "%Y-%m-%d")
@@ -112,7 +113,8 @@ for filename in listdir(directory_to_scan):
         else: 
             for match in matches:
                 # if this match already exists in the DB, we don't want to do anything with it, so we'll carry on to the next match
-                if match_already_exists(match['name']):
+                if match_already_exists(match['name'], match['matchtype']):
+                    print("Found a duplicate match with name: " + match['name'])
                     continue
                 if (len(match['match_scores']) > 1):
                     match_type = match['matchtype']
