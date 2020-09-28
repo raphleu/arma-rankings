@@ -248,7 +248,7 @@ body {
     border-left-color: #fff;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 992px) {
     .nav-brand-image {
         margin-left: 1em;
         background-size: 97px;

@@ -24,7 +24,6 @@
       </div>
       <div class="collapse navbar-collapse" id="armaNavbar">
         <ul class="nav navbar-nav">
-          <li><a href="/">Home</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Leagues</span> <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -40,19 +39,22 @@
             </ul>
           </li>
           <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pickup</span> <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                {% for match_subtype_id, match_subtype in match_types['pickup'].items() %}
-                  <li class="dropdown-submenu">
-                    <a href="/rankings?match_subtype_id={{match_subtype_id}}" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">{{match_subtype.title}}</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/rankings?match_subtype_id={{match_subtype_id}}">Rankings</a></li>
-                    </ul>
-                  </li>
-                {% endfor %}
-              </ul>
-            </li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pickup</span> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              {% for match_subtype_id, match_subtype in match_types['pickup'].items() %}
+                <li class="dropdown-submenu">
+                  <a href="/rankings?match_subtype_id={{match_subtype_id}}" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">{{match_subtype.title}}</span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="/rankings?match_subtype_id={{match_subtype_id}}">Rankings</a></li>
+                  </ul>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
         </ul>
+        <span class="nav navbar-nav ml-auto" style="float: right; padding-left: 5px; padding-right: 5px;">
+            <a href="/"><img src="static/images/armarankingstext.png" style="width: 380px; max-width: 100%;"></a>
+        </span>
       </div>
     </div>
   </nav>
