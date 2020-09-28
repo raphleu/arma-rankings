@@ -66,14 +66,16 @@ match_types = {
             'title': 'Sumo Bar League US',
             'match_subtype_id': 'sbl-us',
             'description': 'Public, ranked sumobar matches, hosted on US servers! Open to anyone, see <a href="/league-info?match_subtype_id=sbl-us">League Info</a> for how to join. Can you make it to the top?',
-            'banner_image': 'titan_banner3.png'
+            'banner_image': 'titan_banner3.png',
+            'text_image': 'sumobarusatext.png'
         },
         'sbl-eu': {
             'header': 'EU',
             'title': 'Sumo Bar League EU',
             'match_subtype_id': 'sbl-eu',
             'description': 'Public, ranked sumobar matches, hosted on EU servers! Open to anyone, see <a href="/league-info?match_subtype_id=sbl-eu">League Info</a> for how to join. Can you make it to the top?',
-            'banner_image': 'titan_banner1.png'
+            'banner_image': 'titan_banner1.png', 
+            'text_image': 'sumobartexteu.png'
         }
     },
     'pickup': {
@@ -83,6 +85,7 @@ match_types = {
             'match_subtype_id': 'pickup-fortress1',
             'description': 'Pickup fortress! Competitive 6v6 gameplay. Sign up on discord in the #pickup channel!',
             'banner_image': 'fort_bg2.png',
+            'text_image': 'fortpickuptext.png',
             'about': 'The ratings here are calculated using an algorithm called Trueskill, invented by microsoft for multiplayer games. Trueskill has many factors that go into it and can be tuned. For example, Trueskill takes into account the strength of your opposing team, so two players with the same number of wins and losses can have different ratings (a loss to a high rated team means less of a hit to your rating than one to a weaker team). Individual score does not matter, purely winning or losing and who you are against. More info can be found <a href="https://trueskill.org/">here</a>. I have tried tuning parameters to work best for this gametype, but if you have suggestions for how they can be improved, please let me (raph) know. <b>Play in 20 or more matches to show up in the rankings.</b><br><br>Current rankings are based on matches played in The Grid pickup fortress server, NY from August 14th to Sept 21st.'
         }
     }

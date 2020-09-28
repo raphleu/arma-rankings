@@ -1,6 +1,10 @@
 <div class="jumbotron main-page-jumbotron" style="background-image: linear-gradient(90deg, rgba(16,16,18,0.6) 0%, rgba(11,11,11,0.7) 54%), url(/static/images/{{match_subtype.banner_image}});">
   <div class="container main-page-jumbotron-container">
-    <h1><a href="/rankings?match_subtype_id={{ match_subtype.match_subtype_id }}" class="non-decorated-link">{{ match_subtype.title }}</a></h1>
+    {% if match_subtype.text_image %}
+    <a href="/rankings?match_subtype_id={{ match_subtype.match_subtype_id }}" class="non-decorated-link"><img class="banner-text" src='/static/images/{{match_subtype.text_image}}'></a>
+    {% else %}
+      <h1><a href="/rankings?match_subtype_id={{ match_subtype.match_subtype_id }}" class="non-decorated-link">{{ match_subtype.title }}</a></h1>
+    {% endif %}
     <p>{{ match_subtype.description|safe }}</p>
   </div>
 </div>

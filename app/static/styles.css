@@ -140,6 +140,14 @@ body {
     background-color: rgb(7,7,7);
 }
 
+.banner-text{
+    max-width: 80%;
+}
+
+.main-welcome-text-image {
+    max-width: 100%;
+}
+
 /*
 =====================================
     Nav Bar
