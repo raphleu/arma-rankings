@@ -17,23 +17,32 @@ fort_env.make_as_global()
 
 env = TrueSkill()
 
-# clear existing ratings from the DB
-User.query.delete()
-Trueskillrating.query.delete()
-MatchScore.query.delete()
-Match.query.delete()
-
 base_addition = 1500
 multiplier = 23.45
 
 def transform_rating(mu, sigma):
     return round((mu - 3 * sigma) * multiplier + base_addition, 0)
 
+def match_already_exists(match_name):
+    matching_match_count = db.session.query(Match).filter(Match.name.like(match_name)).count()
+    if (matching_match_count > 0):
+        return True
+    else:
+        return False
+
+def user_already_exists(username):
+    matching_user_count = db.session.query(User).filter(User.username.like(username)).count()
+    if (matching_user_count > 0):
+        return True
+    else:
+        return False
+
 # using the default mu and sigma here
 starting_rating = transform_rating(25.0, 8.333333333333334)
 fort_starting_rating = transform_rating(fort_starting_mu,fort_sigma)
 
 match_type = ''
+# directory_to_scan = 'raw_data'
 directory_to_scan = '/home/ranking_app/raw_data'
 for filename in listdir(directory_to_scan):
     with open(directory_to_scan + '/' + filename) as f:
@@ -46,6 +55,9 @@ for filename in listdir(directory_to_scan):
         username_to_rating = {}
         if ('pickup-fortress' in filename):
             for match in matches:
+                # if this match already exists in the DB, we don't want to do anything with it, so we'll carry on to the next match
+                if match_already_exists(match['name']):
+                    continue
                 match_type = match['matchtype']
                 match_date_obj = datetime.datetime.strptime(match['date'], "%Y-%m-%d")
                 match_data = Match(
@@ -92,12 +104,16 @@ for filename in listdir(directory_to_scan):
                             old_rating = transform_rating(username_to_rating[username]['rating'].mu, username_to_rating[username]['rating'].sigma)
                         new_rating = transform_rating(rating.mu, rating.sigma)
                         match_scores[username].exit_rating = new_rating
+                        rating_data = {}
                         rating_data['latest_delta'] = new_rating - old_rating
                         rating_data['latest_delta_date'] = match_date_obj
                         rating_data['rating'] = rating 
                         username_to_rating[username] = rating_data
         else: 
             for match in matches:
+                # if this match already exists in the DB, we don't want to do anything with it, so we'll carry on to the next match
+                if match_already_exists(match['name']):
+                    continue
                 if (len(match['match_scores']) > 1):
                     match_type = match['matchtype']
                     match_date_obj = datetime.datetime.strptime(match['date'], "%Y-%m-%d")
@@ -146,7 +162,9 @@ for filename in listdir(directory_to_scan):
                             rating_data['rating'] = rating 
                             username_to_rating[username] = rating_data
         for key in username_to_rating:
-            user = User(username=key)
+            if not (user_already_exists(key)):
+                user = User(username=key)
+                db.session.add(user)
             rating = transform_rating(username_to_rating[key]['rating'].mu, username_to_rating[key]['rating'].sigma)
             trueskillrating = Trueskillrating(
                 username = key,
@@ -157,6 +175,5 @@ for filename in listdir(directory_to_scan):
                 latest_delta = username_to_rating[key]['latest_delta'],
                 latest_delta_date = username_to_rating[key]['latest_delta_date']
             )
-            db.session.add(user)
             db.session.add(trueskillrating)
 db.session.commit()
