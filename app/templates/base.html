@@ -51,8 +51,18 @@
               {% endfor %}
             </ul>
           </li>
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Archive</span> <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                {% for match_subtype_id, match_subtype in match_types['archive'].items() %}
+                  <li>
+                    <a href="/rankings?match_subtype_id={{match_subtype_id}}"> <span class="nav-label">{{match_subtype.title}}</span></a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
         </ul>
-        <span class="nav navbar-nav ml-auto" style="float: right; padding-left: 5px; padding-right: 5px;">
+        <span style="float: right; padding-left: 5px; padding-right: 5px;">
             <a href="/"><img src="static/images/armarankingstext.png" style="width: 380px; max-width: 100%;"></a>
         </span>
       </div>
