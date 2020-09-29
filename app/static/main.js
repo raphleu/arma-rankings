@@ -43,6 +43,14 @@
 				next_us_session = next_thursday_us_session
 			}
 
+			var next_session;
+			if (next_us_session < next_eu_session) {
+				next_session = next_us_session
+			}
+			else {
+				next_session = next_eu_session
+			}
+
 			const params = new URLSearchParams(window.location.search)
 			match_type = params.get('match_subtype_id')
 			if (match_type == "sbl-us") {
@@ -50,6 +58,9 @@
 			}
 			else if (match_type == "sbl-eu") {
 				initializeClock('EU_clock', next_eu_session);
+			}
+			else if (match_type == "sbl-s2") {
+				initializeClock('SBL_clock', next_session)
 			}
 		}
 	})

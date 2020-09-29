@@ -27,7 +27,7 @@ except:
 
 sheet = client.open("SBL-results")
 
-worksheets = ["sbl-us", "sbl-eu"]
+worksheets = ["sbl-us", "sbl-eu", "sbl-s2"]
 
 for worksheet in worksheets: 
     print("Importing data from worksheet: " + worksheet)

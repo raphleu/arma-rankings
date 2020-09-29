@@ -1,5 +1,7 @@
 {% for key in match_types %}
     {% for match_subtype_id, match_subtype in match_types[key].items() %}
-        {% include "jumbotron.html" %}
+        {% if key != 'archive' %}
+            {% include "jumbotron.html" %}
+        {% endif %}
     {% endfor %}
 {% endfor %}

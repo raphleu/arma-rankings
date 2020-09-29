@@ -248,7 +248,7 @@ body {
     border-left-color: #fff;
 }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 768px) {
     .nav-brand-image {
         margin-left: 1em;
         background-size: 97px;
@@ -479,6 +479,12 @@ body {
     text-align: center;
 }
 
+#SBL_clock > div{
+    background: rgb(185, 73, 38);
+    border-radius: 3px;
+    text-align: center;
+}
+
 .clocks_container{
     text-align: center;
 }
@@ -495,6 +501,14 @@ body {
     display: inline-block;
     float: right;
     background: #4E1C1C;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+.SBL_clock_container{
+    display: inline-block;
+    float: right;
+    background: rgb(124, 35, 8);
     border-radius: 3px;
     padding: 3px;
 }
