@@ -70,7 +70,7 @@ for filename in listdir(directory_to_scan):
                 db.session.flush() # This will give us an ID for the match that has not yet been commited
                 formatted_match = []
                 match_teams = match['teams']
-                sorted_teams = sorted(match_teams, key = lambda x: (match_teams[x]['score']), reverse=True)
+                sorted_teams = sorted(match_teams, key = lambda x: (int(match_teams[x]['score'])), reverse=True)
                 place = 1
                 match_scores = {}
                 for team in sorted_teams:
