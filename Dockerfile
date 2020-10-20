@@ -44,4 +44,4 @@ WORKDIR /home/ranking_app
 USER ranking_app
 EXPOSE 5000
 
-ENTRYPOINT python /home/ranking_app/scripts/import_data.py && python /home/ranking_app/scripts/rank_trueskill.py && exec gunicorn --bind :5000 --access-logfile - --error-logfile - tron-ranking:app
+ENTRYPOINT python /home/ranking_app/scripts/import_data.py && python /home/ranking_app/scripts/import_GCP_storage_data.py && python /home/ranking_app/scripts/rank_trueskill.py && exec gunicorn --bind :5000 --access-logfile - --error-logfile - tron-ranking:app

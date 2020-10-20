@@ -47,6 +47,7 @@ for worksheet in worksheets:
             }
         else:
             username = row[0]
+            username = username.strip()
             score = row[1]
             user_object = {
                 'username': username,

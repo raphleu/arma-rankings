@@ -1,0 +1,60 @@
+This is a test ladderlog with some random data
+with new stuff in it
+BASEZONE_CONQUERER_TEAM team_gold 4
+PLAYER_LEFT beckhams 73.187.201.217
+ROUND_ENDED 2020-07-23 21:14:34 EDT
+ROUND_SCORE 0 Iseous@forums team_gold
+ROUND_SCORE 0 thxmp@forums team_blue
+ROUND_SCORE 6 jameZflameZ@forums team_gold
+ROUND_SCORE 4 Monkey@forums team_blue
+ROUND_SCORE 2 Jericho@forums team_gold
+ROUND_SCORE 0 Moonlight@forums team_blue
+ROUND_SCORE 4 Olive@forums team_blue
+ROUND_SCORE 0 raph123@forums team_blue
+ROUND_SCORE 2 Desolate@forums team_gold
+ROUND_SCORE 0 DDMJ@forums team_blue
+ROUND_SCORE 0 Kronkleberry@forums team_gold
+ROUND_SCORE 2 [abc]_ampz@L_OP team_gold
+ROUND_SCORE_TEAM 8 team_blue
+ROUND_SCORE_TEAM 22 team_gold
+NEW_ROUND 2020-07-23 21:14:35 EDT
+ONLINE_TEAM team_gold Team Gold
+ONLINE_TEAM team_blue Team Blue
+NUM_HUMANS 12
+CHAT DDMJ@forums I just exploded
+ROUND_STARTED 2020-07-23 21:14:37 EDT
+CHAT jameZflameZ@forums guys !add again for more fun
+DEATH_FRAG Olive@forums Jericho@forums
+CHAT Olive@forums ahh
+CHAT Olive@forums lol
+CHAT Moonlight@forums o
+DEATH_FRAG thxmp@forums [abc]_ampz@L_OP
+BASEZONE_CONQUERED team_blue 250 50
+BASEZONE_CONQUERER Jericho@forums 0.25
+BASEZONE_CONQUERER raph123@forums 0.25
+BASEZONE_CONQUERER Desolate@forums 0.25
+BASEZONE_CONQUERER Kronkleberry@forums 0.25
+BASEZONE_CONQUERER_TEAM team_gold 4
+ROUND_WINNER team_gold [abc]_ampz@L_OP Kronkleberry@forums Desolate@forums Iseous@forums jameZflameZ@forums Jericho@forums
+DEATH_FRAG Kronkleberry@forums DDMJ@forums
+CHAT Desolate@forums gg
+DEATH_FRAG Jericho@forums raph123@forums
+CHAT jameZflameZ@forums guys !add again for more fun
+ROUND_FINISHED 2020-07-23 21:15:24 EDT
+MATCH_WINNER team_gold [abc]_ampz@L_OP Kronkleberry@forums Desolate@forums Iseous@forums jameZflameZ@forums Jericho@forums
+MATCH_SCORE 2 Iseous@forums team_gold
+MATCH_SCORE 4 thxmp@forums team_blue
+MATCH_SCORE 6 jameZflameZ@forums team_gold
+MATCH_SCORE 10 Monkey@forums team_blue
+MATCH_SCORE 12 Moonlight@forums team_blue
+MATCH_SCORE 14 Jericho@forums team_gold
+MATCH_SCORE 16 Olive@forums team_blue
+MATCH_SCORE 20 raph123@forums team_blue
+MATCH_SCORE 20 Desolate@forums team_gold
+MATCH_SCORE 22 DDMJ@forums team_blue
+MATCH_SCORE 25 Kronkleberry@forums team_gold
+MATCH_SCORE 38 [abc]_ampz@L_OP team_gold
+MATCH_SCORE_TEAM 134 team_blue 0
+MATCH_SCORE_TEAM 208 team_gold 0
+MATCH_ENDED 2020-07-23 21:15:24 EDT
+CHAT jameZflameZ@forums gg
