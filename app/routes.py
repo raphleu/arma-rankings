@@ -74,12 +74,12 @@ match_types = {
     'pickup': {
         'pickup-fortress1': {
             'header': 'Fort',
-            'title': 'Fortress pickup (alpha)',
+            'title': 'Fortress pickup',
             'match_subtype_id': 'pickup-fortress1',
             'description': 'Pickup fortress! Competitive 6v6 gameplay. Sign up on discord in the #pickup channel!',
             'banner_image': 'fort_bg2.png',
             'text_image': 'fortpickuptext.png',
-            'about': 'The ratings here are calculated using an algorithm called Trueskill, invented by microsoft for multiplayer games. Trueskill has many factors that go into it and can be tuned. For example, Trueskill takes into account the strength of your opposing team, so two players with the same number of wins and losses can have different ratings (a loss to a high rated team means less of a hit to your rating than one to a weaker team). Individual score does not matter, purely winning or losing and who you are against. More info can be found <a href="https://trueskill.org/">here</a>. I have tried tuning parameters to work best for this gametype, but if you have suggestions for how they can be improved, please let me (raph) know. <b>Play in 20 or more matches to show up in the rankings.</b><br><br>Current rankings are based on matches played in The Grid pickup fortress server, NY from July 23rd to Sept 28th.'
+            'about': 'The ratings here are calculated using an algorithm called Trueskill, invented by microsoft for multiplayer games. Trueskill has many factors that go into it and can be tuned. For example, Trueskill takes into account the strength of your opposing team, so two players with the same number of wins and losses can have different ratings (a loss to a high rated team means less of a hit to your rating than one to a weaker team). Individual score does not matter, purely winning or losing and who you are against. More info can be found <a href="https://trueskill.org/">here</a>. I have tried tuning parameters to work best for this gametype, but if you have suggestions for how they can be improved, please let me (raph) know. <b>Play in 20 or more matches to show up in the rankings.'
         }
     },
     'archive': {
@@ -186,6 +186,7 @@ def updateMatches():
     actual_key= client.access_secret_version('projects/794715043730/secrets/MATCH_ADMIN_KEY/versions/latest').payload.data
     if (key == actual_key):
         execfile("scripts/import_data.py")
+        os.system("python /home/ranking_app/scripts/import_GCP_storage_data.py")
         os.system("python /home/ranking_app/scripts/rank_trueskill.py")
         return "stuff"
     else:
