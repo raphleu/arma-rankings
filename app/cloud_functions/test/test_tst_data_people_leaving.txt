@@ -1,0 +1,69 @@
+BASEZONE_CONQUERER_TEAM team_gold 30
+BASEZONE_CONQUERER_TEAM team_ugly 30
+CHAT misterplayer@forums oiii
+DEATH_FRAG Jericho@forums .Lightning@forums
+CHAT misterplayer@forums wd
+DEATH_FRAG Agility@forums Carnage@forums
+DEATH_FRAG .Lightning@forums Carnage@forums
+BASEZONE_CONQUERED team_ugly 60 60
+BASEZONE_CONQUERER Carnage@forums 1
+BASEZONE_CONQUERER_TEAM team_gold 60
+ROUND_FINISHED 2020-08-14 19:22:22 EDT
+DEATH_FRAG Carnage@forums .Lightning@forums
+ROUND_ENDED 2020-08-14 19:22:27 EDT
+ROUND_SCORE 90 .Lightning@forums team_ugly
+ROUND_SCORE 0 ClundXIII@forums team_purple
+ROUND_SCORE 0 fulcrum@forums team_purple
+ROUND_SCORE 0 dooov@forums team_orange
+ROUND_SCORE 30 Agility@forums team_ugly
+ROUND_SCORE 0 Jericho@forums team_gold
+ROUND_SCORE 90 Carnage@forums team_gold
+ROUND_SCORE 0 misterplayer@forums team_orange
+ROUND_SCORE_TEAM 0 team_purple
+ROUND_SCORE_TEAM 170 team_ugly
+ROUND_SCORE_TEAM 200 team_gold
+ROUND_SCORE_TEAM 20 team_orange
+NEW_ROUND 2020-08-14 19:22:28 EDT
+CHAT ClundXIII@forums I will try
+ONLINE_TEAM team_orange Team orange
+ONLINE_TEAM team_gold Team gold
+ONLINE_TEAM team_ugly Team ugly
+ONLINE_TEAM team_purple Team purple
+NUM_HUMANS 8
+ROUND_STARTED 2020-08-14 19:22:30 EDT
+DEATH_FRAG Jericho@forums dooov@forums
+DEATH_FRAG ClundXIII@forums Carnage@forums
+DEATH_FRAG dooov@forums Agility@forums
+CHAT dooov@forums i gtg
+DEATH_FRAG Agility@forums dooov@forums
+CHAT dooov@forums peace yall gg
+DEATH_FRAG fulcrum@forums Carnage@forums
+CHAT Agility@forums ya o/
+CHAT ClundXIII@forums bb
+CHAT fulcrum@forums ugh
+CHAT infini o/
+BASEZONE_CONQUERED team_purple 60 60
+BASEZONE_CONQUERER .Lightning@forums 0.333333
+BASEZONE_CONQUERER Carnage@forums 0.333333
+BASEZONE_CONQUERER misterplayer@forums 0.333333
+BASEZONE_CONQUERER_TEAM team_orange 20
+BASEZONE_CONQUERER_TEAM team_gold 20
+BASEZONE_CONQUERER_TEAM team_ugly 20
+MATCH_WINNER team_orange dooov@forums misterplayer@forums
+MATCH_SCORE 0 cokie
+MATCH_SCORE 0 infini
+MATCH_SCORE 120 ClundXIII@forums team_purple
+MATCH_SCORE 180 fulcrum@forums team_purple
+MATCH_SCORE 270 dooov@forums team_orange
+MATCH_SCORE 510 Carnage@forums team_gold
+MATCH_SCORE 690 misterplayer@forums team_orange
+MATCH_SCORE_TEAM 400 team_purple 0
+MATCH_SCORE_TEAM 910 team_ugly 0
+MATCH_SCORE_TEAM 1725 team_gold 0
+MATCH_SCORE_TEAM 2005 team_orange 0
+MATCH_ENDED 2020-08-14 19:22:56 EDT
+ROUND_SCORE 60 dooov@forums team_orange
+PLAYER_LEFT dooov@forums 69.113.78.40
+TEAM_PLAYER_REMOVED team_orange dooov@forums
+ROUND_SCORE 0 dooov@forums
+CHAT Carnage@forums gg
