@@ -1,7 +1,7 @@
 from app import app, db
 from app.models import Elorating, Trueskillrating, Match, MatchScore
 from datetime import date, datetime, timedelta
-from flask import render_template, request
+from flask import render_template, request, url_for
 from google.cloud import secretmanager
 import os
 from sqlalchemy import func
@@ -12,50 +12,22 @@ from sqlalchemy.sql.functions import coalesce
 schedule_for_us = [
     {
         'day': 'Thursdays',
-        'time': [
-            '00:00 GMT',
-            '2:00 am CEST',
-            '1:00 am BST',
-            '8:00 pm EDT',
-            '5:00 am PDT',
-            '10:00 am AEST'
-        ]
+        'utc_time': '00:00'
     },
     {
         'day': 'Saturdays',
-        'time': [
-            '21:00 GMT',
-            '11:00 pm CEST',
-            '10:00 pm BST',
-            '5:00 pm EDT',
-            '2:00 pm PDT',
-            '7:00 am AEST'
-        ]
+        'utc_time': '21:00'
     },
 ]
 
 schedule_for_eu = [
     {
         'day': 'Tuesdays',
-        'time': [
-            '19:00 GMT',
-            '9:00 pm CEST',
-            '8:00 pm BST',
-            '3:00 pm EDT',
-            '12:00 pm PDT',
-            '5:00 am AEST'
-        ]
+        'utc_time': '19:00'
     },
     {
         'day': 'Saturdays',
-        'time': [
-            '18:00 GMT',
-            '8:00 pm CEST',
-            '7:00 pm BST',
-            '2:00 pm EDT',
-            '11:00 am PDT',
-            '4:00 am AEST'
-        ]
+        'utc_time': '19:00'
     },
 ]
 
@@ -85,8 +57,8 @@ match_types = {
             'title': 'TST pickup',
             'match_subtype_id': 'pickup-tst1',
             'description': 'Pickup TST! Competitive 2v2v2v2 sumo gameplay. Sign up on discord in the #pickup channel!',
-            'banner_image': 'fort_bg2.png',
-            'text_image': 'fortpickuptext.png',
+            'banner_image': 'titan_banner3.png',
+            'text_image': 'tstpickuptext.png',
             'about': 'The ratings here are calculated using an algorithm called Trueskill, invented by microsoft for multiplayer games. Trueskill has many factors that go into it and can be tuned. For example, Trueskill takes into account the strength of your opposing team, so two players with the same number of wins and losses can have different ratings (a loss to a high rated team means less of a hit to your rating than one to a weaker team). Individual score does not matter, purely winning or losing and who you are against. More info can be found <a href="https://trueskill.org/">here</a>. I have tried tuning parameters to work best for this gametype, but if you have suggestions for how they can be improved, please let me (raph) know. <b>Play in 20 or more matches to show up in the rankings.'
         }
     },
@@ -170,21 +142,28 @@ def league_info():
 
 @app.route('/matches')
 def matches():
+    page = request.args.get('page', 1, type=int)
     match_subtype_id = request.args.get('match_subtype_id', '')
     match_type = match_subtype_to_type[match_subtype_id]
     
-    two_weeks_ago = datetime.now() - timedelta(days=14)
-    matches = Match.query.join(MatchScore).filter(Match.matchtype == match_subtype_id).filter(Match.date >= two_weeks_ago).order_by(Match.date.desc(), Match.name.desc())
-    # I shouldn't need eager load, but if I do the query below should work. 
-    # matches = Match.query.options(joinedload('match_scores')).filter(Match.matchtype == matchtype).order_by(Match.date.desc())
+    matches = Match.query.filter(Match.matchtype == match_subtype_id).order_by(Match.date.desc(), Match.name.desc()).paginate(page, app.config['MATCHES_PER_PAGE'], False)
+    next_url = url_for('matches', page=matches.next_num, match_subtype_id=match_subtype_id) \
+        if matches.has_next else None
+    prev_url = url_for('matches', page=matches.prev_num, match_subtype_id=match_subtype_id) \
+        if matches.has_prev else None
+
+    total_matches = matches.total
 
     return render_template(
         'matches.html',
-        matches = matches,
+        matches = matches.items,
         matchtype = match_subtype_id.replace("-", " ").upper(),
         match_types=match_types,
         year=date.today().year,
-        match_subtype=match_types[match_type][match_subtype_id]
+        match_subtype=match_types[match_type][match_subtype_id], 
+        prev_url = prev_url, 
+        next_url = next_url,
+        total_matches = total_matches
     )
 
 @app.route('/matches/update')

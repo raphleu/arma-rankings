@@ -294,10 +294,6 @@ body {
     position:relative;
 }
 
-.date-card.container{
-    height: 10em;
-}
-
 .date-card .calendar{
     position:absolute;
     margin:auto;
@@ -397,11 +393,10 @@ body {
 }
 
 .date-card-col {
-    height: 14em;
+    height: 8em;
     padding: 1.5rem;
     -webkit-box-shadow: 0 0.75rem 6rem rgba(56,65,74,.03);
     box-shadow: 0 0.75rem 6rem rgba(56,65,74,.03);
-    margin-bottom: 24px;
     border-radius: .25rem;
     float: left;
     margin-right: 20px;
@@ -521,4 +516,13 @@ body {
 .about-botton{
     margin-bottom: 10px;
     background: rgba(0,0,0,.40);
+}
+
+.pagination > li > a{
+    background-color: rgb(238, 238, 238);
+    color: rgb(119, 119, 119);
+}
+
+.pagination{
+    margin: 0px;
 }

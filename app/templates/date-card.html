@@ -18,11 +18,8 @@
               </div>
             </div>
             <div class="content time-table">
-                {% for time_with_timezone in day_Of_week.time %}
-                  <div>
-                    <h1 id="dayCaption">{{ time_with_timezone }}</h1>
-                  </div>
-                {% endfor %}
+              <h1 id="dayCaption" name="utc-time">{{ day_Of_week.utc_time }} UTC</h1>
+              <h1 id="dayCaption" name="local-time">{{ day_Of_week.utc_time }} UTC</h1>
             </div>
             <div class="over"></div>
           </div>
