@@ -1,0 +1,62 @@
+BASEZONE_CONQUERER kite@forums 0.333333
+BASEZONE_CONQUERER syllabear@forums 0.333333
+BASEZONE_CONQUERER_TEAM team_gold 4
+ROUND_WINNER team_gold syllabear@forums Jericho@forums vov@forums breeze@forums DaGarBBaGeMAN@forums woof@forums
+DEATH_FRAG DaGarBBaGeMAN@forums kite@forums
+ROUND_FINISHED 2020-10-26 20:56:10 EDT
+ROUND_ENDED 2020-10-26 20:56:13 EDT
+ROUND_SCORE 2 Moonlight@forums team_blue
+ROUND_SCORE 2 breeze@forums team_gold
+ROUND_SCORE 0 smurf@lt team_blue
+ROUND_SCORE 0 Agility@forums team_blue
+ROUND_SCORE 0 Jericho@forums team_gold
+ROUND_SCORE 0 DaGarBBaGeMAN@forums team_gold
+ROUND_SCORE 0 woof@forums team_gold
+ROUND_SCORE 6 kite@forums team_blue
+ROUND_SCORE 4 syllabear@forums team_gold
+ROUND_SCORE 0 F0RC3@forums team_blue
+ROUND_SCORE 0 johnny.nbk.@forums team_blue
+ROUND_SCORE 2 vov@forums team_gold
+ROUND_SCORE_TEAM 8 team_blue
+ROUND_SCORE_TEAM 18 team_gold
+NEW_ROUND 2020-10-26 20:56:14 EDT
+ONLINE_TEAM team_gold Team gold
+ONLINE_TEAM team_blue Team blue
+NUM_HUMANS 12
+ROUND_STARTED 2020-10-26 20:56:17 EDT
+DEATH_FRAG woof@forums Agility@forums
+DEATH_FRAG smurf@lt Jericho@forums
+DEATH_FRAG kite@forums DaGarBBaGeMAN@forums
+DEATH_SUICIDE johnny.nbk.@forums
+BASEZONE_CONQUERED team_blue 250 50
+BASEZONE_CONQUERER breeze@forums 0.5
+BASEZONE_CONQUERER DaGarBBaGeMAN@forums 0.5
+BASEZONE_CONQUERER_TEAM team_gold 4
+ROUND_WINNER team_gold syllabear@forums Jericho@forums vov@forums breeze@forums DaGarBBaGeMAN@forums woof@forums
+DEATH_FRAG syllabear@forums Moonlight@forums
+CHAT F0RC3@forums gz
+DEATH_FRAG Moonlight@forums Jericho@forums
+DEATH_FRAG vov@forums johnny.nbk.@forums
+CHAT breeze@forums gg
+CHAT kite@forums gm
+ROUND_FINISHED 2020-10-26 20:56:49 EDT
+MATCH_WINNER team_gold syllabear@forums Jericho@forums vov@forums breeze@forums DaGarBBaGeMAN@forums woof@forums
+MATCH_SCORE 6 Moonlight@forums team_blue
+MATCH_SCORE 6 breeze@forums team_gold
+MATCH_SCORE 6 smurf@lt team_blue
+MATCH_SCORE 10 Agility@forums team_blue
+MATCH_SCORE 12 Jericho@forums team_gold
+MATCH_SCORE 12 DaGarBBaGeMAN@forums team_gold
+MATCH_SCORE 12 woof@forums team_gold
+MATCH_SCORE 14 kite@forums team_blue
+MATCH_SCORE 16 syllabear@forums team_gold
+MATCH_SCORE 18 F0RC3@forums team_blue
+MATCH_SCORE 22 johnny.nbk.@forums team_blue
+MATCH_SCORE 26 vov@forums team_gold
+MATCH_SCORE_TEAM 96 team_blue 0
+MATCH_SCORE_TEAM 202 team_gold 0
+MATCH_ENDED 2020-10-26 20:56:49 EDT
+ROUND_SCORE 0 kite@forums team_blue
+PLAYER_LEFT kite@forums 104.137.69.189
+TEAM_PLAYER_REMOVED team_blue kite@forums
+ROUND_SCORE 0 kite@forums

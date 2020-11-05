@@ -22,7 +22,7 @@
 
 		if (window.location.pathname.indexOf('/rankings') > -1) {
 			var next_tuesday_eu_session = getNextOccuranceOfUTCDayAndHour(2, 18);
-			var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 17);
+			var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 18);
 			var next_eu_session;
 
 			if (next_tuesday_eu_session > next_saturday_eu_session) {
@@ -63,6 +63,11 @@
 				initializeClock('SBL_clock', next_session)
 			}
 		}
+
+		if (window.location.pathname.indexOf('/league-info') > -1) {
+			setLocalTimes();
+		}
+		
 	})
 })();
 
@@ -113,4 +118,13 @@ function getNextOccuranceOfUTCDayAndHour(day, hour) {
         d.setUTCDate(d.getUTCDate() + 7);
     }
     return d;
+}
+
+function setLocalTimes() {
+	document.getElementsByName('local-time').forEach(function(element) {
+		let utc_time = element.textContent;
+		let local_time = moment.utc(utc_time,'HH:mm').local().format("HH:mm");
+		let local_time_zone = moment.tz(moment.tz.guess()).zoneAbbr()
+		element.textContent = local_time + " " + local_time_zone;
+	});
 }

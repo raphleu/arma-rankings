@@ -1,0 +1,91 @@
+DEATH_BASEZONE_CONQUERED Titanoboa@forums
+ROUND_FINISHED 2020-08-16 16:18:08 EDT
+ROUND_ENDED 2020-08-16 16:18:11 EDT
+ROUND_SCORE 60 Desolate@forums team_orange
+ROUND_SCORE 30 syllabear@forums team_ugly
+ROUND_SCORE 30 thxmp@forums team_gold
+ROUND_SCORE 0 RoterBaron1337@forums team_orange
+ROUND_SCORE 0 raph123@forums team_purple
+ROUND_SCORE 0 Moonlight@forums team_ugly
+ROUND_SCORE 30 Titanoboa@forums team_purple
+ROUND_SCORE 0 misterplayer@forums team_gold
+ROUND_SCORE_TEAM 30 team_ugly
+ROUND_SCORE_TEAM 80 team_orange
+ROUND_SCORE_TEAM 80 team_purple
+ROUND_SCORE_TEAM 140 team_gold
+NEW_ROUND 2020-08-16 16:18:13 EDT
+CHAT misterplayer@forums no enter
+PLAYER_RENAMED kronkleberry Kronkleberry@forums 68.142.32.11 1 kronkleberry
+ONLINE_TEAM team_gold Team gold
+ONLINE_TEAM team_purple Team purple
+ONLINE_TEAM team_orange Team orange
+ONLINE_TEAM team_ugly Team ugly
+NUM_HUMANS 8
+CHAT misterplayer@forums sil vous plait
+ROUND_STARTED 2020-08-16 16:18:17 EDT
+DEATH_FRAG Desolate@forums misterplayer@forums
+DEATH_FRAG misterplayer@forums syllabear@forums
+BASEZONE_CONQUERED team_orange 60 60
+BASEZONE_CONQUERER syllabear@forums 0.2
+BASEZONE_CONQUERER thxmp@forums 0.2
+BASEZONE_CONQUERER raph123@forums 0.2
+BASEZONE_CONQUERER Moonlight@forums 0.2
+BASEZONE_CONQUERER Titanoboa@forums 0.2
+BASEZONE_CONQUERER_TEAM team_gold 20
+BASEZONE_CONQUERER_TEAM team_purple 20
+BASEZONE_CONQUERER_TEAM team_ugly 20
+DEATH_BASEZONE_CONQUERED RoterBaron1337@forums
+CHAT misterplayer@forums uehue
+CHAT misterplayer@forums ggs
+DEATH_FRAG thxmp@forums Titanoboa@forums
+BASEZONE_CONQUERED team_gold 60 60
+BASEZONE_CONQUERER syllabear@forums 0.333333
+BASEZONE_CONQUERER raph123@forums 0.333333
+BASEZONE_CONQUERER Moonlight@forums 0.333333
+BASEZONE_CONQUERER_TEAM team_purple 30
+BASEZONE_CONQUERER_TEAM team_ugly 30
+DEATH_FRAG Moonlight@forums Titanoboa@forums
+CHAT Moonlight@forums hmm
+DEATH_FRAG syllabear@forums raph123@forums
+CHAT misterplayer@forums ggs
+CHAT misterplayer@forums o/
+ROUND_SCORE 30 misterplayer@forums team_gold
+PLAYER_LEFT misterplayer@forums 66.108.235.91
+TEAM_PLAYER_REMOVED team_gold misterplayer@forums
+ROUND_SCORE 0 misterplayer@forums
+BASEZONE_CONQUERED team_ugly 60 60
+BASEZONE_CONQUERER raph123@forums 1
+BASEZONE_CONQUERER_TEAM team_purple 60
+ROUND_SCORE 0 RoterBaron1337@forums team_orange
+PLAYER_LEFT RoterBaron1337@forums 88.130.54.185
+TEAM_PLAYER_REMOVED team_orange RoterBaron1337@forums
+ROUND_SCORE 0 RoterBaron1337@forums
+CHAT Desolate@forums gg
+DEATH_FRAG Titanoboa@forums syllabear@forums
+ROUND_SCORE 0 Desolate@forums team_orange
+PLAYER_LEFT Desolate@forums 68.194.72.88
+TEAM_PLAYER_REMOVED team_orange Desolate@forums
+ROUND_SCORE_TEAM 0 team_orange
+TEAM_DESTROYED team_orange
+ROUND_SCORE 0 Desolate@forums
+CHAT syllabear@forums gz
+CHAT Titanoboa@forums gg
+ROUND_SCORE 0 thxmp@forums team_gold
+PLAYER_LEFT thxmp@forums 174.195.16.142
+TEAM_PLAYER_REMOVED team_gold thxmp@forums
+ROUND_SCORE_TEAM 50 team_gold
+TEAM_DESTROYED team_gold
+ROUND_SCORE 0 thxmp@forums
+PLAYER_LEFT Kronkleberry@forums 68.142.32.11
+CHAT Moonlight@forums gg
+ROUND_FINISHED 2020-08-16 16:19:13 EDT
+MATCH_WINNER team_purple Titanoboa@forums raph123@forums
+MATCH_SCORE 330 syllabear@forums team_ugly
+MATCH_SCORE 420 Moonlight@forums team_ugly
+MATCH_SCORE 450 raph123@forums team_purple
+MATCH_SCORE 510 Titanoboa@forums team_purple
+MATCH_SCORE_TEAM 1070 team_ugly 0
+MATCH_SCORE_TEAM 2050 team_purple 0
+MATCH_ENDED 2020-08-16 16:19:13 EDT
+ROUND_SCORE 60 syllabear@forums team_ugly
+PLAYER_LEFT syllabear@forums 213.249.240.208

@@ -4,8 +4,8 @@ from google.cloud.storage import Blob
 client = storage.Client()
 parsed_bucket = client.get_bucket('parsed_server_logs')
 
-match_subtype = 'pickup-fortress1'
+match_subtypes = ['pickup-fortress1','pickup-tst1']
 
-blob = parsed_bucket.blob(match_subtype + '/ladderlog.json')
-
-blob.download_to_filename('raw_data/' + match_subtype + '_parsed.json')
+for match_subtype in match_subtypes:
+    blob = parsed_bucket.blob(match_subtype + '/ladderlog.json')
+    blob.download_to_filename('raw_data/' + match_subtype + '_parsed.json')
