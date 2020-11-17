@@ -71,12 +71,26 @@ body {
 
 .header-fixed > tbody {
     overflow-y: auto;
-    height: 300px;
+    height: 457px;
+}
+
+.header-fixed > tbody > .no-records-found > td {
+    width: 100% !important;
+}
+
+.header-fixed > tbody > tr > .ranking, 
+.header-fixed > thead > tr > .ranking {
+    width: 10% !important;
+}
+
+.header-fixed > tbody > tr > .username, 
+.header-fixed > thead > tr > .username {
+    width: 20% !important;
 }
 
 .header-fixed > tbody > tr > td,
 .header-fixed > thead > tr > th {
-    width: 16.6%;
+    width: 14%;
     float: left;
     border-top: 1px solid #3b4452;
     white-space: nowrap;

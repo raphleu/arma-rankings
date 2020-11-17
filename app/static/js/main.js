@@ -21,46 +21,42 @@
 		})
 
 		if (window.location.pathname.indexOf('/rankings') > -1) {
-			var next_tuesday_eu_session = getNextOccuranceOfUTCDayAndHour(2, 18);
-			var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 18);
-			var next_eu_session;
+			if (document.getElementById('SBL_clock')) {
+				var next_tuesday_eu_session = getNextOccuranceOfUTCDayAndHour(2, 18);
+				var next_saturday_eu_session = getNextOccuranceOfUTCDayAndHour(6, 18);
+				var next_eu_session;
 
-			if (next_tuesday_eu_session > next_saturday_eu_session) {
-				next_eu_session = next_saturday_eu_session
-			}
-			else {
-				next_eu_session = next_tuesday_eu_session
-			}
+				if (next_tuesday_eu_session > next_saturday_eu_session) {
+					next_eu_session = next_saturday_eu_session
+				}
+				else {
+					next_eu_session = next_tuesday_eu_session
+				}
 
-			var next_thursday_us_session = getNextOccuranceOfUTCDayAndHour(4, 23);
-			var next_saturday_us_session = getNextOccuranceOfUTCDayAndHour(6, 20);
-			var next_us_session;
+				var next_thursday_us_session = getNextOccuranceOfUTCDayAndHour(4, 23);
+				var next_saturday_us_session = getNextOccuranceOfUTCDayAndHour(6, 20);
+				var next_us_session;
 
-			if (next_thursday_us_session > next_saturday_us_session) {
-				next_us_session = next_saturday_us_session
-			}
-			else {
-				next_us_session = next_thursday_us_session
-			}
+				if (next_thursday_us_session > next_saturday_us_session) {
+					next_us_session = next_saturday_us_session
+				}
+				else {
+					next_us_session = next_thursday_us_session
+				}
 
-			var next_session;
-			if (next_us_session < next_eu_session) {
-				next_session = next_us_session
-			}
-			else {
-				next_session = next_eu_session
-			}
+				var next_session;
+				if (next_us_session < next_eu_session) {
+					next_session = next_us_session
+				}
+				else {
+					next_session = next_eu_session
+				}
 
-			const params = new URLSearchParams(window.location.search)
-			match_type = params.get('match_subtype_id')
-			if (match_type == "sbl-us") {
-				initializeClock('US_clock', next_us_session)
-			}
-			else if (match_type == "sbl-eu") {
-				initializeClock('EU_clock', next_eu_session);
-			}
-			else if (match_type == "sbl-s2") {
-				initializeClock('SBL_clock', next_session)
+				const params = new URLSearchParams(window.location.search)
+				match_type = params.get('match_subtype_id')
+				if (match_type == "sbl-s2") {
+					initializeClock('SBL_clock', next_session)
+				}
 			}
 		}
 

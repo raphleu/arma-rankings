@@ -2,8 +2,8 @@
 
 {% block styles %}
     {{super()}}
-    <link rel="stylesheet" type="text/css"
-          href="{{url_for('static', filename='styles.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon-logo.ico') }}">
 {% endblock %}
 {% block navbar %}
@@ -42,25 +42,22 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pickup</span> <span class="caret"></span></a>
             <ul class="dropdown-menu">
               {% for match_subtype_id, match_subtype in match_types['pickup'].items() %}
-                <li class="dropdown-submenu">
-                  <a href="/rankings?match_subtype_id={{match_subtype_id}}" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">{{match_subtype.title}}</span></a>
-                  <ul class="dropdown-menu">
-                      <li><a href="/rankings?match_subtype_id={{match_subtype_id}}">Rankings</a></li>
-                  </ul>
+                <li>
+                  <a href="/rankings?match_subtype_id={{match_subtype_id}}"> <span class="nav-label">{{match_subtype.title}}</span></a>
                 </li>
               {% endfor %}
             </ul>
           </li>
           <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Archive</span> <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                {% for match_subtype_id, match_subtype in match_types['archive'].items() %}
-                  <li>
-                    <a href="/rankings?match_subtype_id={{match_subtype_id}}"> <span class="nav-label">{{match_subtype.title}}</span></a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Archive</span> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              {% for match_subtype_id, match_subtype in match_types['archive'].items() %}
+                <li>
+                  <a href="/rankings?match_subtype_id={{match_subtype_id}}"> <span class="nav-label">{{match_subtype.title}}</span></a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
         </ul>
         <span style="float: right; padding-left: 5px; padding-right: 5px;">
             <a href="/"><img src="static/images/armarankingstext.png" style="width: 380px; max-width: 100%;"></a>
@@ -72,8 +69,10 @@
 
 {% block scripts %}
   {{super()}}
-  <script src="{{url_for('static', filename='main.js')}}"></script>
-  <script src="{{url_for('static', filename='charts.js')}}"></script>
+  <script src="{{url_for('static', filename='js/main.js')}}"></script>
+  <script src="{{url_for('static', filename='js/charts.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.11/moment-timezone-with-data.js"></script>
+  <script src="https://benpickles.github.io/peity/jquery.peity.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
 {% endblock %}

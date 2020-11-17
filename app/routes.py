@@ -5,6 +5,7 @@ from flask import render_template, request, url_for
 from google.cloud import secretmanager
 import os
 from sqlalchemy import func
+from sqlalchemy.dialects.mssql import INTEGER
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.functions import coalesce
 
@@ -106,11 +107,19 @@ def league_rankings():
 
     matches_won_stmt = db.session.query(MatchScore.username, func.count('*').label('match_win_count')).filter(MatchScore.place == 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
     matches_lost_stmt = db.session.query(MatchScore.username, func.count('*').label('match_lost_count')).filter(MatchScore.place > 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
+    average_score_stmt = db.session.query(MatchScore.username, func.cast(func.round(func.avg(MatchScore.score)), INTEGER).label('average_score')).filter(MatchScore.score > -1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
+
+    rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count'), coalesce(average_score_stmt.c.average_score, 0).label('average_score'))\
+        .filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP'))\
+        .outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username)\
+        .outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username)\
+        .outerjoin(average_score_stmt, Trueskillrating.username==average_score_stmt.c.username)
+
     if (match_type == 'pickup'):
-        # Similar query to below, except with a clause where you need 20 or more matches to show up
-        rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count')).filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP')).outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username).outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username).filter(coalesce(matches_won_stmt.c.match_win_count,0) + coalesce(matches_lost_stmt.c.match_lost_count,0) >= 20).order_by(Trueskillrating.rating.desc()).all()
-    else: 
-        rankings = db.session.query(Trueskillrating, coalesce(matches_won_stmt.c.match_win_count,0).label('match_win_count'), coalesce(matches_lost_stmt.c.match_lost_count,0).label('match_lost_count')).filter_by(matchtype=match_subtype_id).filter(~Trueskillrating.username.contains('@L_OP')).outerjoin(matches_won_stmt, Trueskillrating.username==matches_won_stmt.c.username).outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username).order_by(Trueskillrating.rating.desc()).all()
+        # A clause where you need 20 or more matches to show up
+        rankings = rankings.filter(coalesce(matches_won_stmt.c.match_win_count,0) + coalesce(matches_lost_stmt.c.match_lost_count,0) >= 20)
+   
+    rankings = rankings.order_by(Trueskillrating.rating.desc()).all()
 
     return render_template(
         'rankings.html',

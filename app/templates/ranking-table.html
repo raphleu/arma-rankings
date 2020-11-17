@@ -1,4 +1,3 @@
-<script src="https://benpickles.github.io/peity/jquery.peity.js"></script>
 <div class="container-fluid">
   <div class="container">
     <div class="page-header mt-0">
@@ -49,15 +48,16 @@
 </div>
 <div class="container">
   <div class="table-responsive .col-md-12">
-    <table class="table table-hover header-fixed">
+    <table class="table table-hover header-fixed" data-toggle="table" data-classes="table" data-search="true">
       <thead>
       <tr>
-        <th class="ranking">Ranking</th>
+        <th class="ranking" data-sortable="true">Ranking</th>
         <th class="username">Username</th>
         <th class="rating">Rating</th>
-        <th class="latest-delta">Latest change</th>
+        <th class="latest-delta" data-sortable="true">Latest change</th>
         <th class="latest-delta-date">Change date</th>
         <th class="matches-wl">Matches W/L</th>
+        <th class="average-score" data-sortable="true">Avg score</th>
       </tr>
       </thead>
       <tbody>
@@ -80,8 +80,9 @@
           <td class="latest-delta {{ latest_delta_color }}">
             {{ latest_delta_signal }}{{ ranking.Trueskillrating.latest_delta }}
           </td>
-          <td class="latest-delta-date"> {{ ranking.Trueskillrating.latest_delta_date.strftime("%B %d") }} </td>
+          <td class="latest-delta-date"> {{ ranking.Trueskillrating.latest_delta_date.strftime("%b %d") }} </td>
           <td class="matches-wl-cell" data-toggle="tooltip" data-placement="top" data-html="true" title="Wins: {{ ranking.match_win_count }}<br>Losses: {{ ranking.match_lost_count }}"><span class="donut" data-peity='{ "fill": ["red", "green"]}'>{{ ranking.match_lost_count }},{{ ranking.match_win_count }}</span></td>
+          <td class="average-score-cell">{{ ranking.average_score }}</td>
         </tr>
       {% endfor %}
       </tbody>
