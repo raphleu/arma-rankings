@@ -533,10 +533,20 @@ body {
 }
 
 .pagination > li > a{
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(45, 45, 45);
     color: rgb(119, 119, 119);
 }
 
-.pagination{
+.pagination {
     margin: 0px;
+}
+
+.league-info-container {
+    background: rgba(40,40,56,1);
+    border-radius: .25rem;
+    margin-bottom: 24px;
+}
+
+.pagination > .disabled > a {
+    background-color: rgb(89, 89, 89);
 }
