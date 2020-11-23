@@ -24,17 +24,16 @@ COPY tron-ranking.py config.py ./
 
 ENV FLASK_APP tron-ranking.py
 
-ARG RATING_TYPE
-ENV RATING_TYPE=$RATING_TYPE
+ENV DATABASE_URL=postgresql://postgres@host.docker.internal:5432/postgres
 
-RUN flask db init
+# RUN flask db init
 RUN flask db migrate -m "trueskill rankings"
 RUN flask db upgrade
 
-# set the owning group for database to ranking_app so that we can update data from the running app 
-RUN chown root:ranking_app app.db
-# allow owning groups to read and write stuff in database 
-RUN chmod g+rw app.db
+# set the owning group for database to ranking_app so that we can update data from the running app (if app.db exists)
+RUN  [ ! -f app.db ] || chown root:ranking_app app.db
+# allow owning groups to read and write stuff in database (if app.db exists)
+RUN  [ ! -f app.db ] || chmod g+rw app.db
 
 COPY entrypoint.sh entrypoint.sh
 RUN chown root:ranking_app entrypoint.sh

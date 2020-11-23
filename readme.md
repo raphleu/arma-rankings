@@ -6,7 +6,7 @@ The easiest way to get this running is using docker. There's data already commit
 
 To build the image, from the command line, simply run 
 ```
-docker build --build-arg RATING_TYPE=trueskill -t ranking_app .
+docker build -t ranking_app .
 ```
 
 from within the base directory (where the Dockerfile lives). The rating type argument specifies whether to use an algorithm like TrueSkill or Elo for ratings. trueskill is preffered at this point, so let's stick with that. 

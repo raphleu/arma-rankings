@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.orm import relationship
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
     username = db.Column(db.String(64), index=True)
 
     def __repr__(self):

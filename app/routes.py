@@ -2,7 +2,7 @@ from app import app, db
 from app.models import Elorating, Trueskillrating, Match, MatchScore
 from datetime import date, datetime, timedelta
 from flask import render_template, request, url_for
-from google.cloud import secretmanager
+# from google.cloud import secretmanager
 import os
 from sqlalchemy import func
 from sqlalchemy.dialects.mssql import INTEGER
