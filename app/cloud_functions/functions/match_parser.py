@@ -70,12 +70,9 @@ def parse_match_log(log_string, score_limit, matchtype):
                     'username': username,
                     'score': score
                 }
-                print(match_data)
                 if (team not in match_data['teams']): 
                     match_data['teams'][team] = {}
                     match_data['teams'][team]['players'] = []
-                print(match_data)
-                print(stripped_line)
                 match_data['teams'][team]['players'].insert(0, player_dict)
         if (stripped_line[0] == 'MATCH_SCORE_TEAM'):
             team = stripped_line[2]
