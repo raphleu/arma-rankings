@@ -60,3 +60,5 @@ for worksheet in worksheets:
     filepath = '/home/ranking_app/raw_data/' + worksheet + '_parsed.json'
     with open(filepath, 'w') as fp:
         json.dump(matches, fp)
+
+print("Done importing from sheets")

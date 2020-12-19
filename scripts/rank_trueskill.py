@@ -30,8 +30,8 @@ def user_already_exists(username):
         return False
 
 match_type = ''
-# directory_to_scan = '../raw_data'
 directory_to_scan = '/home/ranking_app/raw_data'
+
 for filename in listdir(directory_to_scan):
     with open(directory_to_scan + '/' + filename) as f:
         if ('.txt' in filename):
