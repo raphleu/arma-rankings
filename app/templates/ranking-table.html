@@ -6,7 +6,7 @@
           <h2 style="display: inline-block;">{{ match_subtype.title }} Server Rankings</h2>
           {% if match_type != 'pickup' and match_type != 'archive' %}
             <div class="{{ match_subtype.header }}_clock_container">
-              <div class="clock_title">Time until next <u><a href="/league-info#how-to-join" style="color: #C8C8C8">{{ match_subtype.header }} signups...</a></u></div>
+              <div class="clock_title">Time until next <u><a href="/league-info?match_subtype_id={{ match_subtype.match_subtype_id }}#how-to-join" style="color: #C8C8C8">{{ match_subtype.header }} signups...</a></u></div>
                 <div id="{{ match_subtype.header }}_clock" class="clock">
                   <div>
                     <span class="days"></span>
