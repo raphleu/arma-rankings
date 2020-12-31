@@ -58,12 +58,12 @@ def generateTeamsService(players):
 
     # If we have enough players in s, a and b tiers, randomly choose captains from there
     if (len(semi_sorted_ratings_sab) > 3):
-        captain_1_index = random.randrange(0, len(semi_sorted_ratings_sab), 2)
+        captain_1_index = random.randrange(0, len(semi_sorted_ratings_sab) - 1, 2)
         captain_2_index = captain_1_index + 1
         captain_2 = semi_sorted_ratings_sab[captain_2_index].username
         captain_1 = semi_sorted_ratings_sab[captain_1_index].username
     else: 
-        captain_1_index = random.randrange(0, len(semi_sorted_ratings_all), 2)
+        captain_1_index = random.randrange(0, len(semi_sorted_ratings_all) - 1, 2)
         captain_2_index = captain_1_index + 1
         captain_2 = semi_sorted_ratings_all[captain_2_index].username
         captain_1 = semi_sorted_ratings_all[captain_1_index].username

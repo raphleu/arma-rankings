@@ -6,5 +6,5 @@ if [ "${FLASK_ENV}" = "cloud" ]; then
     exec gunicorn --bind :5000 --access-logfile - --error-logfile - tron-ranking:app
 else
     python /home/ranking_app/scripts/rank_trueskill.py
-    exec gunicorn --bind :5000 --access-logfile - --error-logfile - tron-ranking:app
+    exec gunicorn --bind :5000 --access-logfile - --error-logfile - --log-level debug tron-ranking:app
 fi
