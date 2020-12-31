@@ -25,7 +25,7 @@ def generateTeamsService(players):
         func.percent_rank().over(
             order_by=Trueskillrating.rating.desc()
         ).label('pct-rnk'),
-    ).filter_by(matchtype='pickup-fortress1').subquery()
+    ).filter_by(matchtype='pickup-fortress-all').subquery()
     query = db.session.query(subquery).filter(
         func.lower(subquery.c.username).in_([p.lower() for p in players])
     )
