@@ -13,12 +13,24 @@ from sqlalchemy import func
 # players = ["raph123@forums", "Ampz@forums", "vov@forums", "misterplayer@forums", "NoahFence@forums", "TattooOG@forums", "garlic@forums", "naiss@forums", "ClundXIII@forums", "Smurf@forums"]
 # with weird casing
 # players = ["Raph123@forums", "ampz@forums", "vov@forums", "misterplayer@forums", "NoahFence@forums", "TattooOG@forums", "garlic@forums", "naiss@forums", "ClundXIII@forums", "Smurf@forums"]
+# with player1s
+# players = ["beitzer@lt", "naiss@forums", "assaindan@forums", "Creamy@forums", "NoahFence@forums", "TattooOG@forums", "garlic@forums", "naiss@forums", "ClundXIII@forums", "dedog@lt", "player1", "player1"]
 def generateTeamsService(players):
     if (len(players) < 2): 
         return { 
             'error': 'Too few players signed up.'
         }
 
+    player1s = []
+    authed_players = []
+    for player in players:
+        if player == 'player1':
+            player1 = Trueskillrating()
+            player1.username = player
+            player1s.append(player1)
+        else:
+            authed_players.append(player)
+            
     # Get the "percent rank" for each player passed in
     subquery = db.session.query(
         Trueskillrating.username,
@@ -27,7 +39,7 @@ def generateTeamsService(players):
         ).label('pct-rnk'),
     ).filter_by(matchtype='pickup-fortress-all').subquery()
     query = db.session.query(subquery).filter(
-        func.lower(subquery.c.username).in_([p.lower() for p in players])
+        func.lower(subquery.c.username).in_([p.lower() for p in authed_players])
     )
     percent_ranked_ratings = query.all()
 
@@ -51,6 +63,10 @@ def generateTeamsService(players):
             b_tiers.append(rating)
         elif (percent_rank <= c_tier):
             c_tiers.append(rating)
+
+    c_tiers.extend(player1s)
+    # Shuffle c_tiers again so player1s aren't always at the end
+    random.shuffle(c_tiers)
     
     # Separate s, a, and b tier players for selecting captain, if we have enough from those tiers. 
     semi_sorted_ratings_sab = s_tiers + a_tiers + b_tiers
