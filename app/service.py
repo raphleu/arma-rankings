@@ -24,7 +24,7 @@ def generateTeamsService(players):
     player1s = []
     authed_players = []
     for player in players:
-        if player == 'player1':
+        if player.startswith("player") and player[len("player"):] in map(str, range(1, 13)):
             player1 = Trueskillrating()
             player1.username = player
             player1s.append(player1)

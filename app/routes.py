@@ -119,7 +119,7 @@ def generateTeams():
 @app.route('/api/players/exists', methods=['GET'])
 def playerExists():
     username = request.args.get('username', '').lower()
-    if (username == 'player1'):
+    if username.startswith("player") and username[len("player"):] in map(str, range(1, 13)):
         return "1"
     match_subtype_id = request.args.get('match_subtype_id', '')
     player_query = Trueskillrating.query.filter(func.lower(Trueskillrating.username) == username).filter(Trueskillrating.matchtype == match_subtype_id)
