@@ -28,7 +28,7 @@ grpc-google-iam-v1==0.12.3
 grpcio==1.30.0
 gspread==3.6.0
 gunicorn==19.5.0
-httplib2==0.18.0
+httplib2==0.19.0
 idna==2.9
 importlib-metadata==1.6.0
 importlib-resources==1.4.0
