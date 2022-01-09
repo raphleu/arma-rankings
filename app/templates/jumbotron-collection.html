@@ -1,7 +1,5 @@
-{% for key in match_types %}
-    {% for match_subtype_id, match_subtype in match_types[key].items() %}
-        {% if key != 'archive' %}
-            {% include "jumbotron.html" %}
-        {% endif %}
-    {% endfor %}
+{% for match_subtype_id, match_subtype in match_types['pickup']['Live (last 90 days)'].items() %}
+    {% if key != 'archive' %}
+        {% include "jumbotron.html" %}
+    {% endif %}
 {% endfor %}

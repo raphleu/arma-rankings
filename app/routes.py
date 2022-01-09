@@ -7,10 +7,11 @@ from google.cloud import secretmanager
 import json
 import os
 import random
-from sqlalchemy import func
+from sqlalchemy import func, desc, and_, literal
 from sqlalchemy.dialects.mssql import INTEGER
 from sqlalchemy.orm import joinedload
 from sqlalchemy.sql.functions import coalesce
+
 
 @app.route('/')
 @app.route('/index')
@@ -24,6 +25,7 @@ def index():
 @app.route('/rankings')
 def league_rankings():
     match_subtype_id = request.args.get('match_subtype_id', '')
+    match_category = request.args.get('match_category', '')
     match_type = match_subtype_to_type[match_subtype_id]
 
     matches_won_stmt = db.session.query(MatchScore.username, func.count('*').label('match_win_count')).filter(MatchScore.place == 1).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).subquery()
@@ -36,19 +38,49 @@ def league_rankings():
         .outerjoin(matches_lost_stmt, Trueskillrating.username==matches_lost_stmt.c.username)\
         .outerjoin(average_score_stmt, Trueskillrating.username==average_score_stmt.c.username)
 
-    if (match_type == 'pickup'):
-        # A clause where you need 20 or more matches to show up
-        rankings = rankings.filter(coalesce(matches_won_stmt.c.match_win_count,0) + coalesce(matches_lost_stmt.c.match_lost_count,0) >= 20)
-   
     rankings = rankings.order_by(Trueskillrating.rating.desc()).all()
+
+    highest_scores = db.session.query(
+        MatchScore.username,
+        func.max(MatchScore.score).label('rating_criteria'), 
+        Match.date.label('date')
+    ).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).order_by(desc('rating_criteria')).limit(10).all()
+    matches_played = db.session.query(MatchScore.username, func.count('*').label('rating_criteria'), literal('n/a').label('date')).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).order_by(desc("rating_criteria")).limit(10).all()
+    top_alltime_ratings = db.session.query(
+        MatchScore.username,
+        func.max(MatchScore.exit_rating).label('rating_criteria'), 
+        Match.date.label('date')
+    ).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).order_by(desc('rating_criteria')).limit(10).all()
+
+    leaderboards = [
+        {
+            'id': 'highest-scores',
+            'leaderboard': highest_scores,
+            'name': 'Highest match scores',
+            'rating_criteria': 'Score'
+        }, 
+        {
+            'id': 'matches-played',
+            'leaderboard': matches_played,
+            'name': 'Most matches played', 
+            'rating_criteria': 'Matches played'
+        }, 
+        {
+            'id': 'top-ratings',
+            'leaderboard': top_alltime_ratings,
+            'name': 'Top ratings achieved',
+            'rating_criteria': 'Rating'
+        }
+    ]
 
     return render_template(
         'rankings.html',
         rankings=rankings,
         match_type=match_type,
-        match_subtype= match_types[match_type][match_subtype_id],
+        match_subtype= match_types[match_type][match_category][match_subtype_id],
         match_types=match_types,
-        year=date.today().year
+        year=date.today().year,
+        leaderboards=leaderboards
     )
 
 @app.route('/league-info')
@@ -74,6 +106,7 @@ def league_info():
 def matches():
     page = request.args.get('page', 1, type=int)
     match_subtype_id = request.args.get('match_subtype_id', '')
+    match_category = request.args.get('match_category', '')
     match_type = match_subtype_to_type[match_subtype_id]
     
     matches = Match.query.filter(Match.matchtype == match_subtype_id).order_by(Match.date.desc(), Match.name.desc()).paginate(page, app.config['MATCHES_PER_PAGE'], False)
@@ -90,7 +123,7 @@ def matches():
         matchtype = match_subtype_id.replace("-", " ").upper(),
         match_types=match_types,
         year=date.today().year,
-        match_subtype=match_types[match_type][match_subtype_id], 
+        match_subtype= match_types[match_type][match_category][match_subtype_id],
         prev_url = prev_url, 
         next_url = next_url,
         total_matches = total_matches

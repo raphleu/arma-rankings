@@ -1,0 +1,29 @@
+<div class="container-fluid">
+    <div class="container">
+      <div class="page-header mt-0">
+        <div class="row">
+          <div class="col-xs-12">
+            <h2 style="display: inline-block;">Leaderboards</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="tabbable">
+        <ul class="nav nav-tabs"> 
+            {% for leaderboard in leaderboards %}
+                <li class="{{'active' if loop.index == 1 }}"><a href="#{{ leaderboard.id }}" data-toggle="tab">{{ leaderboard.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="tab-content">
+    {% for leaderboard in leaderboards %}
+
+        <div class="tab-pane {{'active' if loop.index == 1 }}" id="{{ leaderboard.id }}">
+        {% include "leaderboard.html" %}
+        </div>
+    {% endfor %}
+    </div>
+</div>

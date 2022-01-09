@@ -38,25 +38,18 @@
       <div class="collapse navbar-collapse" id="armaNavbar">
         <ul class="nav navbar-nav">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Leagues</span> <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              {% for match_subtype_id, match_subtype in match_types['leagues'].items() %}
-                <li class="dropdown-submenu">
-                  <a href="/rankings?match_subtype_id={{match_subtype_id}}" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">{{match_subtype.title}}</span></a>
-                  <ul class="dropdown-menu">
-                      <li><a href="/rankings?match_subtype_id={{match_subtype_id}}">Rankings</a></li>
-                      <li><a href="/league-info?match_subtype_id={{match_subtype_id}}">League Info</a></li>
-                  </ul>
-                </li>
-              {% endfor %}
-            </ul>
-          </li>
-          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Pickup</span> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              {% for match_subtype_id, match_subtype in match_types['pickup'].items() %}
-                <li>
-                  <a href="/rankings?match_subtype_id={{match_subtype_id}}"> <span class="nav-label">{{match_subtype.title}}</span></a>
+              {% for match_category, match_subtype in match_types['pickup'].items() %}
+                <li class="dropdown-submenu">
+                    <a class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">{{match_category}}</span></a>
+                    <ul class="dropdown-menu">
+                    {% for match_subtype_id, match_subtype_obj in match_subtype.items() %}
+                      <li>
+                        <a href="/rankings?match_subtype_id={{match_subtype_id}}&match_category={{match_category}}"> <span class="nav-label">{{match_subtype_obj.title}}</span></a>
+                      </li>
+                    {% endfor %}
+                  </ul> 
                 </li>
               {% endfor %}
             </ul>
@@ -64,10 +57,12 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"> <span class="nav-label">Archive</span> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              {% for match_subtype_id, match_subtype in match_types['archive'].items() %}
-                <li>
-                  <a href="/rankings?match_subtype_id={{match_subtype_id}}"> <span class="nav-label">{{match_subtype.title}}</span></a>
-                </li>
+              {% for match_category, match_subtype in match_types['archive'].items() %}
+                {% for match_subtype_id, match_subtype_obj in match_subtype.items() %}
+                  <li>
+                    <a href="/rankings?match_subtype_id={{match_subtype_id}}&match_category={{match_category}}"> <span class="nav-label">{{match_subtype_obj.title}}</span></a>
+                  </li>
+                {% endfor %}
               {% endfor %}
             </ul>
           </li>

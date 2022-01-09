@@ -1,7 +1,7 @@
 /*General*/
 body {
     line-height: 1.5;
-    color: #C8C8C8;;
+    color: #C8C8C8;
     text-align: left;
     font-size: 1.5em;
     background-image: linear-gradient(90deg, rgba(16,16,18,0.6) 0%, rgba(11,11,11,0.7) 54%), url(/static/images/welcome_background.png);
@@ -97,6 +97,44 @@ body {
     overflow: hidden;
 }
 
+.leaderboard-table > tbody > tr > td,
+.leaderboard-table > thead > tr > th {
+    border-top: 1px solid #3b4452;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.leaderboard-table > tbody > tr > .leaderboard-ranking, 
+.leaderboard-table > thead > tr > .leaderboard-ranking {
+    width: 15% !important;
+}
+
+.leaderboard-table > tbody > tr > .leaderboard-username, 
+.leaderboard-table > thead > tr > .leaderboard-username {
+    width: 35% !important;
+}
+
+.leaderboard-table > tbody > tr > .rating-criteria, 
+.leaderboard-table > thead > tr > .rating-criteria {
+    width: 25% !important;
+}
+
+.leaderboard-table > tbody > tr > .date, 
+.leaderboard-table > thead > tr > .date {
+    width: 25% !important;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    background-color: transparent;
+    color: #C8C8C8;
+}
+
+.nav > li > a:hover {
+    background-color: transparent;
+}
+
 .rules-list li {
     margin-top: 5px;
 }
@@ -111,7 +149,7 @@ body {
 }
 
 .main-page-jumbotron {
-    background-position: center;
+    /* background-position: center; */
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 3px;

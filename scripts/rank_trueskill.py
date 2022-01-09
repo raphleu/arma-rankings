@@ -8,6 +8,7 @@ sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 from app import db
 from app.models import User, Trueskillrating, Match, MatchScore
+from app.app_config import live_seasons
 
 base_addition = 1500
 multiplier = 23.45
@@ -29,6 +30,82 @@ def user_already_exists(username):
     else:
         return False
 
+def get_updated_ratings(match, match_date_obj, starting_mu, username_to_rating, match_type):
+    match_teams = match['teams']
+    sorted_teams = sorted(match_teams, key = lambda x: (int(match_teams[x]['score'])), reverse=True)
+    match_data = Match(
+        name = match['name'],
+        matchtype = match_type,
+        date = match_date_obj
+    )
+    db.session.add(match_data)
+    db.session.flush() # This will give us an ID for the match that has not yet been commited
+    place = 1
+    match_scores = {}
+    formatted_match = []
+    for team in sorted_teams:
+        team_rankings = {}
+        if not 'players' in match_teams[team]:
+            return None
+            # print(match)
+        for player in match_teams[team]['players']:
+            username = player['username']
+            username = username.replace("\_"," ")
+            if (username_to_rating.has_key(username)):
+                rating = username_to_rating[username]['rating']
+                team_rankings[username] = rating
+            else:
+                rating = Rating(mu=starting_mu)
+                team_rankings[username] = rating
+            transformed_rating = transform_rating(rating.mu, rating.sigma)
+            match_score = MatchScore(
+                match_id = match_data.id,
+                username = username,
+                score = player['score'],
+                place = place,
+                entry_rating = transformed_rating,
+            )
+            db.session.add(match_score)
+            match_scores[username] = match_score
+        formatted_match.append(team_rankings)
+        place += 1
+    match_data.quality = round(env.quality(formatted_match), 4)
+    teams_ratings = env.rate(formatted_match)
+    for team_ratings in teams_ratings:
+        for username, rating in team_ratings.items(): 
+            old_rating = starting_rating
+            if (username_to_rating.has_key(username)):
+                old_rating = transform_rating(username_to_rating[username]['rating'].mu, username_to_rating[username]['rating'].sigma)
+            new_rating = transform_rating(rating.mu, rating.sigma)
+            match_scores[username].exit_rating = new_rating
+            rating_data = {}
+            rating_data['latest_delta'] = new_rating - old_rating
+            rating_data['latest_delta_date'] = match_date_obj
+            rating_data['rating'] = rating 
+            username_to_rating[username] = rating_data
+    return username_to_rating
+
+def remove_existing_ratings(match_type):
+    db.session.query(Trueskillrating).filter(Trueskillrating.matchtype == match_type).delete()
+    # db.session.commit() # not sure if we need this here or if it can just be part of the later commit
+
+def save_new_ratings(username_to_rating, match_type):
+    for key in username_to_rating:
+        if not (user_already_exists(key)):
+            user = User(username=key)
+            db.session.add(user)
+        rating = transform_rating(username_to_rating[key]['rating'].mu, username_to_rating[key]['rating'].sigma)
+        trueskillrating = Trueskillrating(
+            username = key,
+            matchtype = match_type,
+            mu = round(username_to_rating[key]['rating'].mu, 2),
+            sigma = round(username_to_rating[key]['rating'].sigma, 2),
+            rating = rating,
+            latest_delta = username_to_rating[key]['latest_delta'],
+            latest_delta_date = username_to_rating[key]['latest_delta_date']
+        )
+        db.session.add(trueskillrating)
+
 match_type = ''
 directory_to_scan = '/home/ranking_app/raw_data'
 
@@ -41,6 +118,7 @@ for filename in listdir(directory_to_scan):
         print('Ranking: ' + filename)
         matches = json.load(f)
         username_to_rating = {}
+        username_to_live_rating = {}
 
         pickup_fort_type = 0
         pickup_tst_type = 0
@@ -67,61 +145,20 @@ for filename in listdir(directory_to_scan):
 
         if (pickup_fort_type or pickup_tst_type):
             for match in matches:
+                match_type = match['matchtype']
                 # if this match already exists in the DB, we don't want to do anything with it, so we'll carry on to the next match
-                if match_already_exists(match['name'], match['matchtype']):
+                if match_already_exists(match['name'], match_type):
                     print("Found a duplicate match with name: " + match['name'])
                     continue
-                match_type = match['matchtype']
                 match_date_obj = datetime.datetime.strptime(match['date'], "%Y-%m-%d")
-                match_data = Match(
-                    name = match['name'],
-                    matchtype = match_type,
-                    date = match_date_obj
-                )
-                db.session.add(match_data)
-                db.session.flush() # This will give us an ID for the match that has not yet been commited
-                formatted_match = []
-                match_teams = match['teams']
-                sorted_teams = sorted(match_teams, key = lambda x: (int(match_teams[x]['score'])), reverse=True)
-                place = 1
-                match_scores = {}
-                for team in sorted_teams:
-                    team_rankings = {}
-                    for player in match_teams[team]['players']:
-                        username = player['username']
-                        username = username.replace("\_"," ")
-                        if (username_to_rating.has_key(username)):
-                            rating = username_to_rating[username]['rating']
-                            team_rankings[username] = rating
-                        else:
-                            rating = Rating(mu=starting_mu)
-                            team_rankings[username] = rating
-                        transformed_rating = transform_rating(rating.mu, rating.sigma)
-                        match_score = MatchScore(
-                            match_id = match_data.id,
-                            username = username,
-                            score = player['score'],
-                            place = place,
-                            entry_rating = transformed_rating,
-                        )
-                        db.session.add(match_score)
-                        match_scores[username] = match_score
-                    formatted_match.append(team_rankings)
-                    place += 1
-                match_data.quality = round(env.quality(formatted_match), 4)
-                teams_ratings = env.rate(formatted_match)
-                for team_ratings in teams_ratings:
-                    for username, rating in team_ratings.items(): 
-                        old_rating = starting_rating
-                        if (username_to_rating.has_key(username)):
-                            old_rating = transform_rating(username_to_rating[username]['rating'].mu, username_to_rating[username]['rating'].sigma)
-                        new_rating = transform_rating(rating.mu, rating.sigma)
-                        match_scores[username].exit_rating = new_rating
-                        rating_data = {}
-                        rating_data['latest_delta'] = new_rating - old_rating
-                        rating_data['latest_delta_date'] = match_date_obj
-                        rating_data['rating'] = rating 
-                        username_to_rating[username] = rating_data
+                username_to_rating_after = get_updated_ratings(match, match_date_obj, starting_mu, username_to_rating, match_type)
+                if (username_to_rating_after is None):
+                    continue
+                else:
+                    username_to_rating = username_to_rating_after
+                if match_type in live_seasons:
+                    if (datetime.datetime.today() - match_date_obj).days < 90:
+                        username_to_live_rating = get_updated_ratings(match, match_date_obj, starting_mu, username_to_live_rating, match_type + "_live")
         else: 
             for match in matches:
                 # if this match already exists in the DB, we don't want to do anything with it, so we'll carry on to the next match
@@ -175,19 +212,7 @@ for filename in listdir(directory_to_scan):
                             rating_data['latest_delta_date'] = match_date_obj
                             rating_data['rating'] = rating 
                             username_to_rating[username] = rating_data
-        for key in username_to_rating:
-            if not (user_already_exists(key)):
-                user = User(username=key)
-                db.session.add(user)
-            rating = transform_rating(username_to_rating[key]['rating'].mu, username_to_rating[key]['rating'].sigma)
-            trueskillrating = Trueskillrating(
-                username = key,
-                matchtype = match_type,
-                mu = round(username_to_rating[key]['rating'].mu, 2),
-                sigma = round(username_to_rating[key]['rating'].sigma, 2),
-                rating = rating,
-                latest_delta = username_to_rating[key]['latest_delta'],
-                latest_delta_date = username_to_rating[key]['latest_delta_date']
-            )
-            db.session.add(trueskillrating)
+        remove_existing_ratings(match_type)
+        save_new_ratings(username_to_rating, match_type)
+        save_new_ratings(username_to_live_rating, match_type + "_live")
 db.session.commit()

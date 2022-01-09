@@ -1,0 +1,26 @@
+<div class="table-responsive .col-md-12">
+  <table class="table table-hover leaderboard-table" data-toggle="table" data-classes="table">
+    <thead>
+    <tr>
+      <th class="leaderboard-ranking">Ranking</th>
+      <th class="leaderboard-username">Username</th>
+      <th class="rating-criteria">{{ leaderboard['rating_criteria'] }}</th>
+      <th class="date">Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ranking in leaderboard['leaderboard'] %}
+      <tr>
+        <td class="leaderboard-ranking"> {{ loop.index }} 
+          {% if loop.index == 1 %}
+            <img src="/static/images/gold-crown-icon.png" height="18" style="padding-top: 2px; float:right;"></img>
+          {% endif%}
+        </td>
+        <td class="leaderboard-username"> {{ ranking.username }} </td>
+        <td class="rating-criteria"> {{ ranking.rating_criteria }} </td>
+        <td class="date"> {{ ranking.date }} </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

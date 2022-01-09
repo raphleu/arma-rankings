@@ -3,31 +3,7 @@
     <div class="page-header mt-0">
       <div class="row">
         <div class="col-xs-12">
-          <h2 style="display: inline-block;">{{ match_subtype.title }} Server Rankings</h2>
-          {% if match_type != 'pickup' and match_type != 'archive' %}
-            <div class="{{ match_subtype.header }}_clock_container">
-              <div class="clock_title">Time until next <u><a href="/league-info?match_subtype_id={{ match_subtype.match_subtype_id }}#how-to-join" style="color: #C8C8C8">{{ match_subtype.header }} signups...</a></u></div>
-                <div id="{{ match_subtype.header }}_clock" class="clock">
-                  <div>
-                    <span class="days"></span>
-                    <div class="smalltext">days</div>
-                  </div>
-                  <div>
-                    <span class="hours"></span>
-                    <div class="smalltext">hours</div>
-                  </div>
-                  <div>
-                    <span class="minutes"></span>
-                    <div class="smalltext">minutes</div>
-                  </div>
-                  <div>
-                    <span class="seconds"></span>
-                    <div class="smalltext">seconds</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endif %}
+          <h2 style="display: inline-block;">Rankings</h2>
           {% if 'about' in match_subtype %}
             <span class="about">
               <button class="btn about-botton" type="button" data-toggle="collapse" data-target="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout">
@@ -87,6 +63,6 @@
       {% endfor %}
       </tbody>
     </table>
-    <a href="/matches?match_subtype_id={{ match_subtype.match_subtype_id }}">Match history</a>
+    <a href="/matches?match_subtype_id={{ match_subtype.match_subtype_id }}&match_category={{ request.args.get('match_category') }}">Match history</a>
   </div>
 </div>
