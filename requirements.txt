@@ -34,7 +34,7 @@ importlib-metadata==1.6.0
 importlib-resources==1.4.0
 itsdangerous==1.1.0
 Jinja2==2.11.2
-Mako==1.1.2
+Mako==1.2.2
 MarkupSafe==1.1.1
 multi-elo==2.0.0
 oauth2client==4.1.3
