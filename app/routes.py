@@ -44,7 +44,7 @@ def league_rankings():
         MatchScore.username,
         func.max(MatchScore.score).label('rating_criteria'), 
         Match.date.label('date')
-    ).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).order_by(desc('rating_criteria')).limit(10).all()
+    ).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).order_by(desc('rating_criteria'), asc('date')).limit(10).all()
     matches_played = db.session.query(MatchScore.username, func.count('*').label('rating_criteria'), literal('n/a').label('date')).join(Match).filter(Match.matchtype==match_subtype_id).group_by(MatchScore.username).order_by(desc("rating_criteria")).limit(10).all()
     top_alltime_ratings = db.session.query(
         MatchScore.username,
@@ -110,9 +110,9 @@ def matches():
     match_type = match_subtype_to_type[match_subtype_id]
     
     matches = Match.query.filter(Match.matchtype == match_subtype_id).order_by(Match.date.desc(), Match.name.desc()).paginate(page, app.config['MATCHES_PER_PAGE'], False)
-    next_url = url_for('matches', page=matches.next_num, match_subtype_id=match_subtype_id) \
+    next_url = url_for('matches', page=matches.next_num, match_subtype_id=match_subtype_id, match_category=match_category) \
         if matches.has_next else None
-    prev_url = url_for('matches', page=matches.prev_num, match_subtype_id=match_subtype_id) \
+    prev_url = url_for('matches', page=matches.prev_num, match_subtype_id=match_subtype_id, match_category=match_category) \
         if matches.has_prev else None
 
     total_matches = matches.total

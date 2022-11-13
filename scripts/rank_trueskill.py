@@ -13,6 +13,8 @@ from app.app_config import live_seasons
 base_addition = 1500
 multiplier = 23.45
 
+matches_to_exclude = {"pickup-tst1.2022-10-21.03:28:01"}
+
 def transform_rating(mu, sigma):
     return round((mu - 3 * sigma) * multiplier + base_addition, 0)
 
@@ -146,6 +148,9 @@ for filename in listdir(directory_to_scan):
         if (pickup_fort_type or pickup_tst_type):
             for match in matches:
                 match_type = match['matchtype']
+                if match['name'] in matches_to_exclude:
+                    print("Excluding match: " + match['name'])
+                    continue
                 # if this match already exists in the DB, we don't want to do anything with it, so we'll carry on to the next match
                 if match_already_exists(match['name'], match_type):
                     print("Found a duplicate match with name: " + match['name'])
